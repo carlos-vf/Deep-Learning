@@ -14,4 +14,4 @@
     - [Connected papers](https://www.connectedpapers.com/main/ceabdbedda22134952b7695936822e202b50320a/FishNet%3A-A-Large%20scale-Dataset-and-Benchmark-for-Fish-Recognition%2C-Detection%2C-and-Functional-Trait-Prediction/graph)
   - [YOLO-Fish](https://www.sciencedirect.com/science/article/pii/S1574954122002977?ref=pdf_download&fr=RR-9&rr=9554add4aac3ea35)
   - [WildFish Dataset](https://github.com/PeiqinZhuang/WildFish?tab=readme-ov-file)
-   
+- [YOLO versions](https://viso.ai/computer-vision/yolo-explained/)
