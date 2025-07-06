@@ -15,3 +15,12 @@
   - [YOLO-Fish](https://www.sciencedirect.com/science/article/pii/S1574954122002977?ref=pdf_download&fr=RR-9&rr=9554add4aac3ea35)
   - [WildFish Dataset](https://github.com/PeiqinZhuang/WildFish?tab=readme-ov-file)
 - [YOLO versions](https://viso.ai/computer-vision/yolo-explained/)
+
+
+## Roadmap
+
+1. Create the full implementation, does not matter what we use but it has to work -> this demonstrates that we are capable of using modern computer vision concepts and tools
+2. Look at the inefficiencies and try to solve them on our own (not all, it is enough one since they are difficult to solve) -> this is what we bring in this project
+3. Integrate everything in video
+4. Comparison with other models and performance analysis
+5. Create a stunning presentation
