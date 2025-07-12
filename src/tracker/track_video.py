@@ -28,7 +28,7 @@ def run_tracker(model_path, video_path, output_dir):
     print(f"⏳ Processing video: {video_path.name}")
     results_generator = model.track(
         source=str(video_path),
-        tracker="bytetrack.yaml",
+        tracker="./src/tracker/bytetrack.yaml",
         persist=True,
         save=True,
         project=str(output_dir),
