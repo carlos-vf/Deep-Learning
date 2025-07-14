@@ -70,7 +70,7 @@ Datasets used in literature:
 - OzFish
 
 ## Model performance evaluation
-For the task of species classification we can use Precision, Recall or the Mean Average Precision.
+For the task of species classification we can use Precision, Recall or the Mean Average Precision (MAP).
 
 We can use these metrics also for fish detection, by considering as a False Positive a box is labeled as fish when it was not a fish and a False Negative when a fish box was not identified.  
 
