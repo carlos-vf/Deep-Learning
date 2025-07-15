@@ -84,6 +84,9 @@ The pipeline has two modes, selected with the `--mode` flag:
 py src/main.py --source 0 --mode buffered --min-duration 10
 ```
 
+> [!NOTE]  
+> This project was developed using Python 3.10
+
 
 ---
 
@@ -100,3 +103,5 @@ You can customize the pipeline's behavior using the following arguments:
 | `--mode` | The processing mode to use. | `realtime` |
 | `--tracker-config`| Path to the tracker's `.yaml` configuration file for tuning. | `bytetrack.yaml` |
 | `--min-duration` | Minimum frames a track must exist to be considered stable. (Used in `buffered` and `spatiotemporal` modes).| `5` |
+
+
