@@ -118,7 +118,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run tracker-based confidence boosting.")
     parser.add_argument("--model", default="models/best.pt", help="Path to the single-class YOLO model.")
     parser.add_argument("--video", required=True, help="Path to the input video file.")
-    parser.add_argument("--output-dir", default="phase3_outputs", help="Directory to save the results.")
+    parser.add_argument("--output-dir", default="outputs", help="Directory to save the results.")
     parser.add_argument("--tracker-config", default="./src/tracker/bytetrack.yaml", help="Path to the tracker's YAML configuration file.")
     parser.add_argument("--min-duration", type=int, default=5, help="Minimum number of frames a track must exist to be considered stable.")
     

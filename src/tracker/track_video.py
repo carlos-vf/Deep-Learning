@@ -1,9 +1,7 @@
 # src/track_video.py (Updated Version)
 
-import cv2
 from ultralytics import YOLO
 from pathlib import Path
-import time
 import argparse # Import the argparse library
 
 def run_tracker(model_path, video_path, output_dir):
@@ -61,7 +59,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run object tracking on a video.")
     parser.add_argument("--model", default="models/best.pt", help="Path to the YOLO model.")
     parser.add_argument("--video", required=True, help="Path to the input video file.")
-    parser.add_argument("--output-dir", default="phase3_outputs", help="Directory to save the results.")
+    parser.add_argument("--output-dir", default="outputs", help="Directory to save the results.")
     
     args = parser.parse_args()
 
