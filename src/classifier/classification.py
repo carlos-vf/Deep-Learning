@@ -1,14 +1,13 @@
-import numpy as np
-import pandas as pd
 import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader
-from torchvision import datasets, transforms
+from torchvision import datasets
 import matplotlib.pyplot as plt
 import argparse
 import os
 from pathlib import Path
+from classifier.config import TRAIN_TRANSFORMS, INFERENCE_TRANSFORMS
 
 def count_species(dataset_path):
     """Count the number of species by counting folders in the train dataset"""
@@ -40,25 +39,10 @@ def load_dataset(dataset_path, batch_size=32):
         if not split_path.exists():
             raise FileNotFoundError(f"{split} dataset not found at: {split_path}")
     
-    # Data transformations
-    train_transform = transforms.Compose([
-        transforms.Resize((128, 128)),
-        transforms.RandomHorizontalFlip(),
-        transforms.RandomRotation(10),
-        transforms.ToTensor(),
-        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
-    ])
-
-    test_transform = transforms.Compose([
-        transforms.Resize((128, 128)),
-        transforms.ToTensor(),
-        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
-    ])
-
     # Load datasets
-    train_dataset = datasets.ImageFolder(str(dataset_path / 'train'), transform=train_transform)
-    test_dataset = datasets.ImageFolder(str(dataset_path / 'test'), transform=test_transform)
-    val_dataset = datasets.ImageFolder(str(dataset_path / 'val'), transform=test_transform)
+    train_dataset = datasets.ImageFolder(str(dataset_path / 'train'), transform=TRAIN_TRANSFORMS)
+    test_dataset = datasets.ImageFolder(str(dataset_path / 'test'), transform=INFERENCE_TRANSFORMS)
+    val_dataset = datasets.ImageFolder(str(dataset_path / 'val'), transform=INFERENCE_TRANSFORMS)
 
     # Create data loaders
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)

@@ -9,7 +9,6 @@ from ultralytics import YOLO
 from pathlib import Path
 import time
 import json
-import matplotlib.pyplot as plt
 import psutil
 from datetime import datetime
 import yaml
@@ -209,10 +208,11 @@ class DeepFishMacTrainer:
         
         # Load pre-trained model
         model_name = f'yolov8{model_size}.pt'
+        path_to_model = Path("models") / model_name
         print(f"📥 Loading pre-trained model: {model_name}")
         
         try:
-            model = YOLO(model_name)
+            model = YOLO(path_to_model)
             print("✅ Model loaded successfully")
         except Exception as e:
             print(f"❌ Error loading model: {e}")

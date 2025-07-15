@@ -3,3 +3,5 @@ data
 venv*
 phase3_outputs/*/
 runs
+outputs
+*/*/__pycache__/
