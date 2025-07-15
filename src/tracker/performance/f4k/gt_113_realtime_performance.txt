@@ -1,0 +1,5 @@
+--- Tracking Metrics for video: gt_113 (Mode: Realtime) ---
+(Evaluated on 41 key frames only)
+
+         IDF1   IDP   IDR  Rcll  Prcn GT MT PT ML FP FN IDs  FM  MOTA  MOTP IDt IDa IDm
+overall 44.3% 70.9% 32.2% 36.4% 80.0% 14  4  2  8 11 77   1   2 26.4% 0.311   0   1   0

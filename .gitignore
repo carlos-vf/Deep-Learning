@@ -3,5 +3,7 @@ data
 venv*
 phase3_outputs/*/
 runs
-outputs
-*/*/__pycache__/
+outputs/*.mp4
+_pycache__
+*/*/__pycache__
+*/__pycache__
