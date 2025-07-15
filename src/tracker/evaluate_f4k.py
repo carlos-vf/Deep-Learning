@@ -1,4 +1,9 @@
-# src/evaluate_f4k.py (Corrected Version 2)
+import xml.etree.ElementTree as ET
+import motmetrics as mm
+import pandas as pd
+from pathlib import Path
+import argparse
+import numpy as np
 
 import xml.etree.ElementTree as ET
 import motmetrics as mm
@@ -9,7 +14,8 @@ import numpy as np
 
 def load_f4k_ground_truth(xml_file):
     """
-    Parses the F4K XML file, correctly handling keyFrame ranges and contour points.
+    Parses the F4K XML file, correctly handling keyFrame ranges and contour points,
+    and returns a DataFrame suitable for motmetrics.
     """
     tree = ET.parse(xml_file)
     root = tree.getroot()
@@ -34,10 +40,9 @@ def load_f4k_ground_truth(xml_file):
         if frame_id not in key_frames:
             continue
 
-        # --- PARSING FIX: Find all 'object' tags directly within the 'frame' ---
         for obj in frame.findall('object'):
             obj_type = obj.attrib.get('objectType')
-            if obj_type not in ['fish', 'small_fish', 'crab', 'shrimp', 'jellyfish', 'starfish']:
+            if 'fish' not in obj_type:
                 continue
                 
             track_id = int(obj.attrib['trackingId'])
@@ -64,14 +69,25 @@ def load_f4k_ground_truth(xml_file):
     df = pd.DataFrame(data, columns=['FrameId', 'Id', 'X', 'Y', 'Width', 'Height'])
     return df
 
-# The rest of the script remains the same
-def evaluate_f4k_tracking(gt_xml_path, ts_txt_path):
+def evaluate_f4k_tracking(gt_xml_path, ts_txt_path, output_dir):
+    """
+    Compares a tracker's output text file against the F4K ground truth
+    and saves the results to a text file.
+    """
     gt_xml_path = Path(gt_xml_path)
     ts_txt_path = Path(ts_txt_path)
+    output_dir = Path(output_dir)
+
+    output_dir.mkdir(parents=True, exist_ok=True)
 
     if not gt_xml_path.exists() or not ts_txt_path.exists():
         print("❌ Error: Ground truth or tracker file not found.")
         return
+
+    pipeline_mode = "unknown"
+    filename_parts = ts_txt_path.stem.split('_')
+    if len(filename_parts) > 1 and "results" in filename_parts[-1]:
+        pipeline_mode = filename_parts[-2]
 
     gt = load_f4k_ground_truth(gt_xml_path)
     if gt.empty:
@@ -100,17 +116,34 @@ def evaluate_f4k_tracking(gt_xml_path, ts_txt_path):
     mh = mm.metrics.create()
     summary = mh.compute(acc, metrics=mm.metrics.motchallenge_metrics, name='overall')
     
-    strsummary = mm.io.render_summary(summary, formatters=mh.formatters, namemap=mm.io.motchallenge_metric_names)
+    strsummary = mm.io.render_summary(
+        summary,
+        formatters=mh.formatters,
+        namemap=mm.io.motchallenge_metric_names
+    )
     
-    print(f"\n--- Tracking Metrics for video: {gt_xml_path.stem} ---")
+    # Print results to console with the mode included
+    header_text = f"--- Tracking Metrics for video: {gt_xml_path.stem} (Mode: {pipeline_mode.capitalize()}) ---"
+    print(f"\n{header_text}")
     print(f"(Evaluated on {len(key_frame_ids)} key frames only)")
     print(strsummary)
+
+    # Save results to file with the mode included
+    output_file_path = output_dir / f"{gt_xml_path.stem}_{pipeline_mode}_performance.txt"
+    with open(output_file_path, 'w') as f:
+        f.write(f"{header_text}\n")
+        f.write(f"(Evaluated on {len(key_frame_ids)} key frames only)\n\n")
+        f.write(strsummary)
+    
+    print(f"\n📄 Performance metrics saved to: {output_file_path}")
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Evaluate tracking on the F4K dataset.")
     parser.add_argument("--gt-xml", required=True, help="Path to the ground truth XML file.")
     parser.add_argument("--ts-txt", required=True, help="Path to the tracker's output .txt file.")
+    parser.add_argument("--output-dir", default="src/tracker/performance/f4k", 
+                        help="Directory to save the performance results.")
     
     args = parser.parse_args()
-    evaluate_f4k_tracking(args.gt_xml, args.ts_txt)
+    evaluate_f4k_tracking(args.gt_xml, args.ts_txt, args.output_dir)

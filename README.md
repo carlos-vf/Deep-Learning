@@ -1,163 +1,107 @@
-# Phase 3: Real-Time Video Tracking & Analysis
+# Underwater Fish Detection, Tracking, and Classification
 
-## Overview
-Phase 3 leverages the custom fish detection model built in Phase 2 to perform robust, real-time tracking and analysis on video files. The focus shifts from static image detection to understanding object behavior over time, extracting meaningful data, and producing actionable insights from your underwater videos.
 
----
 
-## Phase 3 Goals
-- **Robust multi-object tracking** with persistent IDs for individual fish.
-- **Video analytics pipeline** that extracts fish counts and track data.
-- **Maintain real-time performance** (>15 FPS) during video processing.
-- **Generate insightful visualizations** from the extracted tracking data.
+## Project Overview
 
----
+This project implements a complete computer vision pipeline to process underwater video footage. The system is designed to perform three core tasks:
 
-## Hardware Requirements (Phase 3)
-Hardware requirements are for **inference**, which is less demanding than training.
-- **GPU**: GTX 1060 / RTX 2060 or better (4GB+ VRAM recommended for smooth playback).
-- **RAM**: 16GB minimum.
-- **Storage**: 20GB free space for videos and output data.
+1.  **Detection**: Identify and locate fish within each frame of a video.
+2.  **Tracking**: Assign a unique, persistent ID to each detected fish and follow it across multiple frames.
+3.  **Classification**: For each tracked fish, identify its specific species using a dedicated classification model.
+
+The pipeline is built to be flexible, offering multiple processing modes ranging from fast, real-time analysis for live camera feeds to more computationally intensive, high-accuracy offline processing for pre-recorded videos.
 
 ---
 
-## Software Stack Upgrade
-This phase introduces libraries for video processing, tracking, and data analysis.
+## Project Structure
 
-### Core Dependencies
-```bash
-# Core library remains the same
-pip install --upgrade ultralytics
-
-# Add libraries for video and data handling
-pip install --upgrade opencv-python
-pip install --upgrade pandas numpy
-pip install --upgrade scikit-learn # For metrics
-pip install --upgrade seaborn matplotlib # For plotting
-
-# Verification
-python -c "import cv2; print(f'OpenCV version: {cv2.__version__}')"
-```
-
-### Week 1: Baseline Video Inference & Tracking
-1.  **Develop a script** to run the Phase 2 model on a single video file.
-2.  **Integrate a default object tracker** (e.g., ByteTrack, which is built into YOLOv8).
-3.  **Process a test video** and save the output with bounding boxes and track IDs.
-4.  **Establish baseline metrics**: Frames Per Second (FPS) and initial tracking quality.
-
-### Week 2: Tracking Optimization & Data Extraction
-1.  **Tune tracker parameters** (e.g., confidence thresholds) to reduce ID switches.
-2.  **Implement logic to handle occlusions** and re-identification.
-3.  **Extract raw tracking data**: Frame number, track ID, bounding box coordinates.
-4.  **Save the extracted data** to a structured format (e.g., a CSV file).
-
-### Week 3: Data Analysis & Visualization
-1.  **Develop scripts to analyze** the generated tracking data from the CSV files.
-2.  **Calculate key video-level metrics**:
-    * Total unique fish count.
-    * Duration each fish is on-screen.
-    * Fish count per frame.
-3.  **Create visualizations**:
-    * A plot of fish count over time for an entire video.
-    * A histogram of track durations.
-
-### Week 4: Final Evaluation & Packaging
-1.  **Run the complete pipeline** on all test videos.
-2.  **Compare final fish counts** against your ground truth annotations.
-3.  **Benchmark final FPS** and document tracking stability.
-4.  **Refactor the code** into a clean, reusable application/script.
-
-
-## Project Structure for Phase 3
+The project is organized into the following directories to ensure a clean and scalable workflow:
 
 ```
-deepfish_project/
-├── input_videos/
-│   ├── test_video_01.mp4
-│   └── ...
-├── output_data/
-│   ├── test_video_01_tracks.csv  # CSV with tracking data
-│   └── ...
-├── output_videos/
-│   ├── test_video_01_tracked.mp4 # Video with boxes and IDs
-│   └── ...
+Deep-Learning/
+├── data/
+│   └── ... (Contains raw datasets like F4K, Brackish, DeepFish)
 ├── models/
-│   └── best.pt                   # Your trained model from Phase 2
+│   ├── fish_detection.pt      # Single-class YOLO model for tracking
+│   └── fish_classification.pth # Custom CNN model for species
+├── outputs/
+│   └── ... (Generated videos and data files are saved here)
 ├── src/
-│   ├── track_video.py            # Main script for this phase
-│   └── analyze_tracks.py         # Script for data analysis
+│   ├── main.py              # The main entry point for the application
+│   ├── pipeline.py             
+│   ├── classifier/
+│   │   ├── classification.py
+│   │   └── config.py
+│   ├── object_detector/
+│   │   └── detection.py
+│   └── tracker/
+│       ├── bytetrack.yaml
+│       └── evaluate_f4k.py
 └── README.md
 ```
 
-## Key Phase 3 Features
+* **`data/`**: Holds all the datasets used for training and evaluation.
+* **`models/`**: Contains the final, trained model files (`.pt` and `.pth`).
+* **`outputs/`**: The default location where all generated videos and data files are saved. This folder should be added to `.gitignore`.
+* **`src/`**: Contains all the Python source code.
 
-### 1. **Multi-Object Tracking (MOT)**
-- Uses a tracker like **ByteTrack** to associate detections from consecutive frames.
-- Assigns a unique and persistent **Track ID** to each fish, allowing you to follow it through the video.
+---
 
-### 2. **Video Data Extraction**
-- Moves beyond just drawing boxes on a video.
-- Creates a structured log (CSV) of every detection, linked to a specific fish (via its track ID) and a specific moment in time (the frame number).
+## 3. Model Preparation
 
-### 3. **Performance Optimization for Video**
-- Focuses on maintaining a high FPS rate by optimizing the video processing pipeline.
-- Techniques include efficient video I/O with OpenCV and running inference in a streamlined loop.
+The pipeline relies on two specialized models that must be trained beforehand:
 
-### 4. **Automated Video Analytics**
-- Builds a repeatable process to turn raw video into structured data and visualizations.
-- Allows for consistent analysis across all of your video assets.
+1.  **Fish Tracker Model (`fish_detection.pt`)**: This is a single-class YOLOv8 model trained only to detect "fish". It provides stable tracking and should be trained on a dataset where all species labels have been converted to a single class (ID `0`).
+2.  **Species Classifier Model (`fish_classification.pth`)**: This is a custom CNN model trained to identify specific fish species. It should is trained using the `src/classifier/classification.py` script.
 
 
-## Evaluation Metrics
-Metrics shift from static image accuracy (mAP) to tracking and video-level accuracy.
+---
 
-- **Fish Count Accuracy**: Final count vs. ground truth (e.g., `±10% error`).
-- **Track Stability**: Number of ID switches per fish (lower is better).
-- **Processing Speed**: **Frames Per Second (FPS)** on your target hardware.
-- **Advanced (Nice to Have)**: Multiple Object Tracking Accuracy (MOTA) and IDF1 scores, which require detailed per-frame tracking annotations.
+## 4. Running the Pipeline
 
+The main entry point for all operations is `src/main.py`. You must run all commands from the project's root directory. The pipeline can process both **pre-recorded video files** and **live camera footage**.
 
-## Expected Phase 3 Outcomes
+### Input Sources
 
-### Performance Targets
-- **Tracking Speed**: 15-40 FPS on GPU.
-- **Fish Count Accuracy**: Within ±10% of ground truth on test videos.
-- **ID Switches**: Minimized for a majority of tracks.
+The `--source` argument determines the input type:
+* **For a video file**, provide the full path to the file (e.g., `"data/f4k/gt_113.mp4"`).
+* **For a live camera**, provide its numerical ID (e.g., `"0"` for the default system webcam).
 
-### Deliverables
-1.  **An optimized video processing script** (`track_video.py`).
-2.  **Tracked output videos** showing bounding boxes and persistent track IDs.
-3.  **CSV files** containing detailed, frame-by-frame tracking data.
-4.  **An analysis script** (`analyze_tracks.py`) that generates summary statistics and plots.
-5.  **An evaluation report** summarizing the tracking performance across all videos.
+### Operational Modes
+
+The pipeline has two modes, selected with the `--mode` flag:
+
+* **`realtime`**: (Default) Optimized for speed. It classifies each fish the first time it's seen and displays the results immediately. Ideal for live camera feeds.
+* **`buffered`**: A real-time capable mode that introduces a short delay. It only displays a track after it has been stable for a certain number of frames (`--min-duration`), reducing visual noise from fleeting detections.
 
 
-## Phase 3 vs. Phase 2 Comparison
-| Metric                | Phase 2 (Training)                      | Phase 3 (Tracking & Analysis)         |
-| --------------------- | --------------------------------------- | ------------------------------------- |
-| **Primary Goal** | Create an accurate image detector       | Analyze object behavior in video      |
-| **Input** | Annotated images (frames)               | Trained model (`.pt`) and video files |
-| **Output** | A trained model (`.pt`)                 | Tracked videos and data (CSV)         |
-| **Key Metric** | mAP (Mean Average Precision)            | FPS, Fish Count Accuracy, MOTA/IDF1   |
-| **Core Technology** | Transfer Learning                       | Multi-Object Tracking (e.g., ByteTrack)|
+### Example Commands
+
+**Live Camera (Buffered Mode):**
+```bash
+# Use camera 0 and wait for 10 frames of stability
+py src/main.py --source 0 --mode buffered --min-duration 10
+```
+
+> [!NOTE]  
+> This project was developed using Python 3.10
 
 
-## Common Phase 3 Challenges & Solutions
+---
 
-### Challenge 1: "Lost Tracks / Frequent ID Switching"
-**Solutions**:
-- **Tune tracker thresholds**: Adjust the confidence scores required to initialize or maintain a track.
-- **Adjust detector confidence**: A lower detection confidence (`conf`) can help the tracker see objects in challenging frames, but may increase false positives.
-- **Analyze failure cases**: Visually inspect videos where IDs switch to understand the cause (e.g., fast motion, occlusions, similar-looking fish).
+## 5. Command-Line Arguments
 
-### Challenge 2: "Inference is Too Slow for Real-Time"
-**Solutions**:
-- **Reduce processing resolution**: Process the video at a lower resolution (e.g., 640p instead of 1080p).
-- **Frame skipping**: Process every Nth frame instead of every single frame. This is effective for slow-moving scenes.
-- **Use a lighter model**: If not already using it, switch to the `yolov8n` model from Phase 2.
-- **Model Optimization (Advanced)**: Export the `.pt` model to a faster format like ONNX or TensorRT.
+You can customize the pipeline's behavior using the following arguments:
 
-### Challenge 3: "Tracker is Confused by False Detections"
-**Solutions**:
-- **Increase the detection confidence threshold** in your tracking script to filter out low-confidence detections from the model.
-- **Retrain the Phase 2 model**: If certain non-fish objects (e.g., seaweed, reflections) are consistently detected, add these as negative examples to your training data and retrain the model.
+| Argument | Description | Default Value |
+| :--- | :--- | :--- |
+| **`--source`** | **[Required]** Path to the input video file or the camera ID (e.g., "0"). | `None` |
+| `--yolo-model` | Path to the single-class 'fish' YOLO tracker model. | `models/fish_tracker.pt` |
+| `--cnn-model` | Path to your trained CNN species classifier checkpoint. | `models/fish_classification.pth` |
+| `--output-dir` | Directory where the annotated output videos will be saved. | `outputs` |
+| `--mode` | The processing mode to use. | `realtime` |
+| `--tracker-config`| Path to the tracker's `.yaml` configuration file for tuning. | `bytetrack.yaml` |
+| `--min-duration` | Minimum frames a track must exist to be considered stable. (Used in `buffered` and `spatiotemporal` modes).| `5` |
+
+
