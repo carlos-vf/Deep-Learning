@@ -102,6 +102,7 @@ You can customize the pipeline's behavior using the following arguments:
 | `--output-dir` | Directory where the annotated output videos will be saved. | `outputs` |
 | `--mode` | The processing mode to use. | `realtime` |
 | `--tracker-config`| Path to the tracker's `.yaml` configuration file for tuning. | `bytetrack.yaml` |
-| `--min-duration` | Minimum frames a track must exist to be considered stable. (Used in `buffered` and `spatiotemporal` modes).| `5` |
+| `--min-duration` | Minimum frames a track must exist to be considered stable. (Used in `buffered` mode).| `5` |
+| `--classify-interval`| Re-classify a track every X frames to update its species label with the most confident prediction. | `5` |
 
 
