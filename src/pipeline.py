@@ -23,16 +23,16 @@ def run_real_time_pipeline(yolo_model, species_classifier, species_list, input_s
     
     if not is_real_time:
         video_path = Path(input_source)
-        # Setup paths for both video and text file outputs
         video_output_path = Path(output_dir) / f"{video_path.stem}_realtime_classified.mp4"
         txt_output_path = Path(output_dir) / f"{video_path.stem}_realtime_results.txt"
         
         w, h, fps = (int(cap.get(x)) for x in (cv2.CAP_PROP_FRAME_WIDTH, cv2.CAP_PROP_FRAME_HEIGHT, cv2.CAP_PROP_FPS))
         video_writer = cv2.VideoWriter(str(video_output_path), cv2.VideoWriter_fourcc(*"mp4v"), fps, (w, h))
-        txt_file = open(txt_output_path, "w") # Open the text file for writing
+        txt_file = open(txt_output_path, "w")
 
     np.random.seed(42)
     colors = np.random.randint(0, 256, size=(100, 3), dtype=np.uint8)
+    
     species_map = {}
 
     print(f"\n🚀 Starting Real-Time Pipeline (Config: {tracker_config_path})... Press 'q' to quit.")
@@ -49,31 +49,40 @@ def run_real_time_pipeline(yolo_model, species_classifier, species_list, input_s
         if results[0].boxes.id is not None:
             boxes_xyxy = results[0].boxes.xyxy.cpu().numpy()
             track_ids = results[0].boxes.id.int().cpu().tolist()
-            confs = results[0].boxes.conf.cpu().numpy() # Get confidence scores
+            confs = results[0].boxes.conf.cpu().numpy()
 
             for box, track_id, conf in zip(boxes_xyxy, track_ids, confs):
                 x1, y1, x2, y2 = map(int, box)
                 
-                # --- Save data to text file (if processing a video) ---
+                # --- Save data to text file ---
                 if txt_file:
                     width = x2 - x1
                     height = y2 - y1
                     txt_file.write(f"{frame_number},{track_id},{x1:.2f},{y1:.2f},{width:.2f},{height:.2f},{conf:.2f},-1,-1,-1\n")
 
-                # --- Classify and Draw (logic is unchanged) ---
-                if track_id not in species_map:
-                    cropped_fish = frame[y1:y2, x1:x2]
-                    if cropped_fish.size > 0:
-                        pil_image = Image.fromarray(cv2.cvtColor(cropped_fish, cv2.COLOR_BGR2RGB))
-                        input_tensor = INFERENCE_TRANSFORMS(pil_image).unsqueeze(0).to(device)
-                        with torch.no_grad():
-                            outputs = species_classifier(input_tensor)
-                            _, predicted_idx = torch.max(outputs, 1)
-                            species_name = species_list[predicted_idx.item()]
-                        species_map[track_id] = species_name
+                # Classify the object on its first appearance or if a better view might be available
+                cropped_fish = frame[y1:y2, x1:x2]
+                if cropped_fish.size > 0:
+                    pil_image = Image.fromarray(cv2.cvtColor(cropped_fish, cv2.COLOR_BGR2RGB))
+                    input_tensor = INFERENCE_TRANSFORMS(pil_image).unsqueeze(0).to(device)
+                    
+                    with torch.no_grad():
+                        outputs = species_classifier(input_tensor)
+                        probabilities = torch.nn.functional.softmax(outputs, dim=1)
+                        new_conf, predicted_idx = torch.max(probabilities, 1)
+                        
+                        new_species = species_list[predicted_idx.item()]
+                        new_conf = new_conf.item()
+
+                        # Update only if the new classification is more confident
+                        current_best_conf = species_map.get(track_id, ("Unknown", 0.0))[1]
+                        if new_conf > current_best_conf:
+                            species_map[track_id] = (new_species, new_conf)
                 
-                species_name = species_map.get(track_id, "fish")
+                # --- Drawing Logic ---
+                species_name, species_conf = species_map.get(track_id, ("(classifying...)", 0.0))
                 label_text = f"id:{track_id} {species_name}"
+                
                 color = tuple(colors[track_id % 100].tolist())
                 (w_text, h_text), _ = cv2.getTextSize(label_text, cv2.FONT_HERSHEY_SIMPLEX, 0.6, 2)
                 cv2.rectangle(frame, (x1, y1 - 20), (x1 + w_text, y1), color, -1)
@@ -99,7 +108,7 @@ def run_real_time_pipeline(yolo_model, species_classifier, species_list, input_s
 
 
 # --- BUFFERED REAL-TIME (SINGLE-PASS, DELAYED) ---
-def run_buffered_pipeline(yolo_model, species_classifier, species_list, input_source, output_dir, tracker_config_path, min_track_duration, device):
+def run_buffered_pipeline(yolo_model, species_classifier, species_list, input_source, output_dir, tracker_config_path, min_track_duration, classify_interval, device):
     """
     Executes a single-pass pipeline with a buffer to validate tracks.
     If input is a video file, it saves both an annotated video and a .txt data file.
@@ -126,10 +135,12 @@ def run_buffered_pipeline(yolo_model, species_classifier, species_list, input_so
 
     np.random.seed(42)
     colors = np.random.randint(0, 256, size=(100, 3), dtype=np.uint8)
-    species_map = {}
+    # --- Data Buffers ---
+    species_map = {} 
     track_history = {}
+    last_classification_frame = {}
 
-    print(f"\n🚀 Starting Buffered Real-Time Pipeline (Config: {tracker_config_path})... Press 'q' to quit.")
+    print(f"\n🚀 Starting Buffered Pipeline (Classify Interval: {classify_interval} frames per fish)... Press 'q' to quit.")
     
     frame_number = 0
     while cap.isOpened():
@@ -151,34 +162,48 @@ def run_buffered_pipeline(yolo_model, species_classifier, species_list, input_so
             for box, track_id, conf in zip(boxes_xyxy, track_ids, confs):
                 if track_history.get(track_id, 0) >= min_track_duration:
                     
-                    # --- Save data to text file (if processing a video) ---
-                    if txt_file:
-                        x1, y1, x2, y2 = map(int, box)
-                        width = x2 - x1
-                        height = y2 - y1
-                        txt_file.write(f"{frame_number},{track_id},{x1:.2f},{y1:.2f},{width:.2f},{height:.2f},{conf:.2f},-1,-1,-1\n")
-
-                    # --- Classify and Draw (logic is unchanged) ---
-                    if track_id not in species_map:
+                    # Check if enough frames have passed since the last classification FOR THIS SPECIFIC TRACK
+                    if frame_number - last_classification_frame.get(track_id, -classify_interval) >= classify_interval:
                         x1, y1, x2, y2 = map(int, box)
                         cropped_fish = frame[y1:y2, x1:x2]
+                        
                         if cropped_fish.size > 0:
                             pil_image = Image.fromarray(cv2.cvtColor(cropped_fish, cv2.COLOR_BGR2RGB))
                             input_tensor = INFERENCE_TRANSFORMS(pil_image).unsqueeze(0).to(device)
+                            
                             with torch.no_grad():
                                 outputs = species_classifier(input_tensor)
-                                _, predicted_idx = torch.max(outputs, 1)
-                                species_name = species_list[predicted_idx.item()]
-                            species_map[track_id] = species_name
-                    
-                    species_name = species_map.get(track_id, "fish")
+                                probabilities = torch.nn.functional.softmax(outputs, dim=1)
+                                new_conf, predicted_idx = torch.max(probabilities, 1)
+                                
+                                new_species = species_list[predicted_idx.item()]
+                                new_conf = new_conf.item()
+
+                                # Update only if the new classification is more confident
+                                current_best_conf = species_map.get(track_id, ("Unknown", 0.0))[1]
+                                if new_conf > current_best_conf:
+                                    species_map[track_id] = (new_species, new_conf)
+                                    #print(f"   -> Updated ID {track_id} to '{new_species}' (Conf: {new_conf:.2f})")
+                        
+                        # Update the last classification frame for this track ID
+                        last_classification_frame[track_id] = frame_number
+
+                    # --- Drawing Logic ---
+                    species_name, _ = species_map.get(track_id, ("(classifying...)", 0.0))
                     label_text = f"id:{track_id} {species_name}"
+                    
                     x1, y1, x2, y2 = map(int, box)
                     color = tuple(colors[track_id % 100].tolist())
+                    
                     (w_text, h_text), _ = cv2.getTextSize(label_text, cv2.FONT_HERSHEY_SIMPLEX, 0.6, 2)
                     cv2.rectangle(frame, (x1, y1 - 20), (x1 + w_text, y1), color, -1)
                     cv2.putText(frame, label_text, (x1, y1 - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
                     cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
+                    
+                    if txt_file:
+                        width = x2 - x1
+                        height = y2 - y1
+                        txt_file.write(f"{frame_number},{track_id},{x1:.2f},{y1:.2f},{width:.2f},{height:.2f},{conf:.2f},-1,-1,-1\n")
 
         cv2.imshow("Fish Pipeline", frame)
         if video_writer:

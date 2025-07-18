@@ -16,6 +16,8 @@ if __name__ == "__main__":
                         help="Processing mode: 'realtime' or 'buffered'.")
     parser.add_argument("--min-duration", type=int, default=5, 
                         help="Minimum frames for a track to be considered stable (for buffered mode).")
+    parser.add_argument("--classify-interval", type=int, default=5, 
+                        help="Interval in frames to re-classify species (for buffered mode).")
     args = parser.parse_args()
 
     # Define the device
@@ -29,4 +31,4 @@ if __name__ == "__main__":
     if args.mode == "standard":
         run_real_time_pipeline(yolo_model, cnn_model, species_list, args.source, args.output_dir, args.tracker_config, device)
     elif args.mode == "buffered":
-        run_buffered_pipeline(yolo_model, cnn_model, species_list, args.source, args.output_dir, args.tracker_config, args.min_duration, device)
+        run_buffered_pipeline(yolo_model, cnn_model, species_list, args.source, args.output_dir, args.tracker_config, args.min_duration, args.classify_interval, device)
