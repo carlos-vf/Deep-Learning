@@ -1,6 +1,7 @@
 import argparse
 import torch
 from ultralytics import YOLO
+from pathlib import Path 
 from pipeline import run_standard_pipeline, run_buffered_pipeline
 
 if __name__ == "__main__":
@@ -15,6 +16,10 @@ if __name__ == "__main__":
     parser.add_argument("--min-duration", type=int, default=5, 
                         help="Minimum frames for a track to be considered stable (for buffered mode).")
     args = parser.parse_args()
+
+    output_dir = Path(args.output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+    print(f"✅ Output directory is set to: {output_dir.resolve()}")
 
     # Define the device
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
