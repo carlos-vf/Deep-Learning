@@ -1,0 +1,6 @@
+train: /Users/christianfaccio/UniTs/First_Year/Deep_Learning/Deep-Learning/Datasets/Deepfish_YOLO/train/images
+val: /Users/christianfaccio/UniTs/First_Year/Deep_Learning/Deep-Learning/Datasets/Deepfish_YOLO/val/images
+test: /Users/christianfaccio/UniTs/First_Year/Deep_Learning/Deep-Learning/Datasets/Deepfish_YOLO/test/images
+
+nc: 1
+names: ['Fish']
