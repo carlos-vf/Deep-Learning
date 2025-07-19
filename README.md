@@ -111,10 +111,10 @@ You can customize the pipeline's behavior using the following arguments:
 
 - Fisher, R. B., Chen-Burger, Y.-H., Giordano, D., Hardman, L., & Lin, F.-P. (2016). *Fish4Knowledge: Collecting and Analyzing Massive Coral Reef Fish Video Data*. Springer.
 
-- *Fish Tracking, Counting, and Behaviour Analysis in Digital Aquaculture: A Comprehensive Review.* (2016). Arxiv.org. [Link](https://arxiv.org/html/2406.17800v1#S5)
-
 - Saleh, A., Laradji, I. H., Konovalov, D. A., Bradley, M. D., Vazquez, D., & Sheaves, M. (2020). *A realistic fish-habitat dataset to evaluate algorithms for underwater visual analysis.* Scientific Reports, 10(1). [https://doi.org/10.1038/s41598-020-71639-x](https://doi.org/10.1038/s41598-020-71639-x)
 
 - Zhang, Y., Sun, P., Jiang, Y., Yu, D., Weng, F., Yuan, Z., Luo, P., Liu, W., & Wang, X. (2022). *ByteTrack: Multi-Object Tracking by Associating Every Detection Box*. ArXiv:2110.06864 [cs]. [https://arxiv.org/abs/2110.06864](https://arxiv.org/abs/2110.06864)
 
-- Yaseen, M. (2024). *What is YOLOv8: An In-Depth Exploration of the Internal Features of the Next-Generation Object Detector*. ArXiv.org. [Link](https://arxiv.org/abs/2408.15857)
+- Yaseen, M. (2024). *What is YOLOv8: An In-Depth Exploration of the Internal Features of the Next-Generation Object Detector*. ArXiv.org. [https://arxiv.org/abs/2408.15857](https://arxiv.org/abs/2408.15857)
+
+- Cui, M., et al. (2024). *Fish Tracking, Counting, and Behaviour Analysis in Digital Aquaculture: A Comprehensive Review.* ArXiv.org. [https://arxiv.org/abs/2406.17800](https://arxiv.org/abs/2406.17800)
