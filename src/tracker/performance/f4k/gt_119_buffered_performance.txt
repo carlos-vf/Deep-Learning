@@ -1,0 +1,4 @@
+--- Tracking Metrics for video: gt_119 (Mode: Buffered) ---
+
+        IDF1   IDP   IDR  Rcll  Prcn GT MT PT ML FP  FN IDs  FM  MOTA  MOTP IDt IDa IDm
+gt_119 38.3% 81.1% 25.1% 27.6% 89.2% 46  5  7 34  8 173   2   4 23.4% 0.287   1   2   1

@@ -1,0 +1,6 @@
+train: ..\..\..\Datasets\f4k_YOLO\train\images
+val: ..\..\..\Datasets\f4k_YOLO\val\images
+test: ..\..\..\Datasets\f4k_YOLO\test\images
+
+nc: 1
+names: ['Fish']

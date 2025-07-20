@@ -1,0 +1,4 @@
+--- Overall Tracking Performance Summary (All Videos) ---
+
+         IDF1   IDP   IDR  Rcll  Prcn  GT MT PT  ML  FP   FN IDs   FM  MOTA  MOTP IDt IDa IDm
+overall 30.0% 51.6% 21.1% 34.1% 83.7% 204 10 74 120 228 2262 130  125 23.6% 0.263  22 111   8
