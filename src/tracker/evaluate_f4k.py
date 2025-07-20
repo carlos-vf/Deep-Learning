@@ -142,7 +142,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Evaluate tracking on the F4K dataset.")
     parser.add_argument("--gt-xml", required=True, help="Path to the ground truth XML file.")
     parser.add_argument("--ts-txt", required=True, help="Path to the tracker's output .txt file.")
-    parser.add_argument("--output-dir", default="src/tracker/performance/f4k", 
+    parser.add_argument("--output-dir", default="src/tracker/performance", 
                         help="Directory to save the performance results.")
     
     args = parser.parse_args()
