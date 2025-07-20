@@ -14,7 +14,7 @@ def parse_arguments():
     """Parse command line arguments"""
     parser = argparse.ArgumentParser(description='Train YOLOv8 for Fish Detection')
     
-    # --- NEW: Argument for the data config file ---
+    # --- Argument for the data config file ---
     parser.add_argument('--data', type=str, required=True,
                         help='Path to the dataset configuration YAML file (e.g., data.yaml).')
     
@@ -130,13 +130,12 @@ def train_model(args):
     
     if args.mode == 'single':
         train_params.update({
-            'single_cls': True,
-            'cls': 0.5,
-            'box': 7.5,
-            'dfl': 1.5,
-            'augment': True,
-            'mixup': 0.1,
-            'copy_paste': 0.1,
+            'single_cls': True,  # KEY PARAMETER: Treat multi-class dataset as single class
+            'cls': 0.5,          # Classification loss weight
+            'box': 7.5,          # Box regression loss weight  
+            'dfl': 1.5,          # Distribution focal loss weight
+            'mixup': 0.0,
+            'copy_paste': 0.0,
         })
     else: # multi-class
         train_params.update({
@@ -144,9 +143,8 @@ def train_model(args):
             'cls': 1.0,
             'box': 7.5,
             'dfl': 1.5,
-            'augment': True,
-            'mixup': 0.15,
-            'copy_paste': 0.3,
+            'mixup': 0.15,        # Higher mixup for multi-class
+            'copy_paste': 0.3,    # Higher copy-paste for multi-class
         })
     
     print(f"\n🚀 Starting training...")

@@ -28,7 +28,7 @@ Each convolutional layer is characterized by its **kernel size** (number of inpu
 
 Example: a stride of 2 halve the subsequent layer, a large kernel size requires more weights and a large dilation takes in the convolution input nodes that are further from each other.
 
-## YOLOv1
+## YOLOv1 (2015)
 
 First, the image is divided in an $S \times S$ grid. If the center of an object falls into a grid cell, that grid cell is responsible for detecting that object.
 
@@ -80,7 +80,7 @@ RMK: just like R-CNN also YOLO by dividing the image in cells is "proposing" reg
 - YOLO has multiple downsampling layers, which means that predictions are based on very blurry features
 - To partially differentiate between errors in large boxes and in small boxes they also predict the square root of the size of the box instead of the size directly. However this is not enough, the main source of error is still incorrect localizations.
 
-## YOLOv2
+## YOLOv2 (2016)
 
 The main idea is to improve recall and
 localization of YOLOv1 while maintaining classification accuracy.
@@ -108,7 +108,7 @@ In the end, the mixed training make the network be able to generalize also on ne
 
 RMK: COCO dataset is made of mutually exclusive classes.
 
-## YOLOv3
+## YOLOv3 (2018)
 
 They just add some cool and good ideas from other people work.
 
@@ -126,7 +126,7 @@ They just add some cool and good ideas from other people work.
 - focal loss: since many times the proposal anchor boxes do not actually contain objects this lead to class imbalance (too many negatives and few positives). Focal loss adds an extra parameter in the loss that down-weights the effect of weel-classified examples to improve performance 
 - dual IOU thresholds
 
-## Parenthesis: feature pyramid networks
+## Parenthesis: Feature Pyramid Networks (FPN)
 
 Since in YOLOv3 they start predicting at 3 different scales, we should at least spend a word on a similar concept: feature pyramid networks.
 
@@ -134,15 +134,79 @@ At first, objecton detection models tried to improve accuracy by using **featuri
 
 Instead, they start from the original image, learn to extract features through a CNN to get to the lowest resolution feature map. Then they create a new feature pyramid from up to bottom by upsampling from the low-resolution feature maps. This process is enhanced by some lateral connections to the high-resolution feature maps.
 
-## YOLOv4
+## Parenthesis: some general annotations on object detectors and ways to improve them
 
-## YOLOv5
+Object detectors are usually composed of two parts: a **backbone** (like DarkNet53) which is pre-trained on ImageNet (huge dataset popular in those years) and a **head** which is used to predict classes and bounding boxes of objects.
+The head can be a "one-stage detector"/"dense prediction" (like YOLO) or a "two-stage detector"/"sparse prediction" (like R-CNN).
 
-## YOLOv6
+Object detectors developed in recent years usually insert some layers between backbone and head to collect feature maps from different stages. These layers form the **neck** of the architecture. Often they contain several bottom-up paths and top-down paths, like Feature Pyramid Networks.
 
-## YOLOv7
+**Bag of freebies (BOF)** are all the methods that chang the *training* cost/strategy without affecting the *inference* cost/strategy. Some common examples include:
+- **Data augmentation** is used to improve the robustness of the model. Pixel-wise adjustments include photometric distortions (adjust the brightness, contrast, hue, saturation and noise) and geometric distortions (add random scaling, cropping, flipping and rotating). Other ways would be to simulate object occlusion issues, like random erase or adding a mask, or to mixup different images.
+- **Focal loss** is used to deal with the problem of data imbalance between different classes.
+- **Labeling smoothing** is used to express the relationship of the degree of association between different categories, instead of using the one-hot hard representation. (OFC, in our case it would mean to actually understand the relation between different fish species...)
+- Modification of the **objective function of Bounding Box (BBox) regression** is done to avoid problems like the regression loss increasing with the scale or the predicted objects losing integrity because the coordinates are predicted independently. There have been proposed various losses based on modification of the IOU metric (like GIOU, DIOU or CIOU). They can lead to faster convergence and better accuracy.
 
-## YOLOv8
+**Bag of specials (BoS)** are all methods that only increase the inference cost by a small amount but can significantly improve the accuracy of object detection. They usually improve some specific attributes in a model. Some common examples include:
+- Modules that **enhance receptive field** like **Spatial Pyramid Pooling (SPP)**.
+- Modules that introduce an **attention mechanism** like **Squeeze-and-Excitation (SE)** or **Spatial Attention Module (SAM)**. SE will actually raise the inference too much, but SAM doesn't affect inference time at all, just a little the training time.
+- Modules that introduce **feature integration** (also called **path aggregation**) like skip connection or feature pyramids like **Feature Pyramid Networks (FPN)** or **(SFAM)**.
+- Finding good **activation functions**. Many have been proposed to solve the gradient vanish problem (refer to the book). ???
+- Post-processing methods like **Non-Maximum Suppresion (NMS)**, where BBoxes that badly predict the same object are filtered out. This is no longer required in anchor-free methods. ???
+
+
+## YOLOv4 (2020)
+The main focus of this work is to make the training more **efficient**: they optimize YOLOv3 such that it can provide an high-quality, real-time convining object-detector even when trained on less resources (like single GPU training).
+
+Specifically, they tried to find optimal balance between the input network resolution, the convolutional layer number, the
+parameter number ($\text{filter_size}**2 \cdot \text{filters} \cdot \text{channel} / \text{groups}$), and the number of layer outputs (filters).
+
+By experimenting with different backbones they noticed that their performance differed on different datasets. One could perform better on a specific dataset, but worse in a different one. They considered that the ideal case was a network with *larger receptive field size* and a *larger number of parameters*, so they chose a variant of **DarkNet as backbone**.
+
+In general more parameters lead to a greater capacity of the model to detect multiple objects of different sizes in a single image. Also a large receptive field allows viewing the entire object/context.
+
+They added the **SPP** module to enlarge the receptive field, the **PANet path-aggregation as neck** (instead of FPN in YOLOv3) and YOLOv3 as the head of the architecture.
+
+They do NOT use Cross-GPU Batch Normalization or other expensive devices to allow reproducibility.
+
+They also added a new method of data augmentation (Mosaic and Self-Adversarial Training) and modified some of the used method (SAM and PAN) to make the design more efficient.
+
+**Mosaic data augmentation**: it is a method that mixes 4 images. This allows detection of object outside their normal context. In addition, batch normalization calculates activation statistics from 4 different images on each layer. This significantly reduces the need for a large mini-batch size.
+
+For the backbone they used:
+- Class label smoothing
+- Data augmentation (specifically CutMix and Mosaic Data augmentation)
+- DropBlock regularization
+- Mish activation function
+- Cross-stage partial connections (Skip-connections)
+- Multi-input weighted residual connections (MiWRC)
+
+For the head they used:
+- CIoU loss
+- Cross mini-Batch Normalization
+- Mosaic data augemtation and Self-Adversarial Training
+- Eliminate grid sensitivity ???
+- Used multiple anchors for a single ground truth ???
+- Cosine annealing scheduler
+- Search optimal hyperparameters with genetic algorithms
+- Random training shapes
+- Mish activation
+- DIoU-NMS
+- SPP block, SAM block, PAN block (neck)
+
+They provide all the hyperparameters they used. They used ImageNet for classification and MS COCO for object detection, using different hyperparameters for each.
+
+They experimented many parameters and features.
+
+
+## YOLOv5 (2020)
+
+## YOLOv6 (2022)
+
+## YOLOv7 (2022)
+
+## YOLOv8 (2023)
 
 ### YOLOv8s (small)
 
+(Fun fact! Yolov10 was introduced in 2024)
