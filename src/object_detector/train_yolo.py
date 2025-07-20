@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 Configurable YOLOv8 training script for single-class or multi-class fish detection.
 Supports switching between modes with minimal configuration changes.
@@ -15,51 +14,44 @@ def parse_arguments():
     """Parse command line arguments"""
     parser = argparse.ArgumentParser(description='Train YOLOv8 for Fish Detection')
     
-    parser.add_argument('--mode', type=str, choices=['single', 'multi'], default='single',
-                       help='Training mode: single-class or multi-class (default: single)')
+    # --- NEW: Argument for the data config file ---
+    parser.add_argument('--data', type=str, required=True,
+                        help='Path to the dataset configuration YAML file (e.g., data.yaml).')
+    
+    parser.add_argument('--mode', type=str, choices=['single', 'multi'], default='multi',
+                        help='Training mode: single-class or multi-class (default: multi)')
     parser.add_argument('--model_size', type=str, choices=['n', 's', 'm', 'l', 'x'], default='s',
                        help='YOLO model size (default: s)')
     parser.add_argument('--epochs', type=int, default=50,
                        help='Number of training epochs (default: 50)')
     parser.add_argument('--batch_size', type=int, default=16,
-                       help='Batch size for training (default: 16)')
+                        help='Batch size for training (default: 16)')
     parser.add_argument('--imgsz', type=int, default=640,
-                       help='Input image size (default: 640)')
+                        help='Input image size (default: 640)')
     parser.add_argument('--device', type=str, default='auto',
-                       help='Device to use: auto, cpu, cuda (default: auto)')
+                        help='Device to use: auto, cpu, cuda (default: auto)')
     parser.add_argument('--project', type=str, default='runs/train',
-                       help='Project directory for saving results')
+                        help='Project directory for saving results')
     parser.add_argument('--name', type=str, default=None,
-                       help='Experiment name (auto-generated if not specified)')
+                        help='Experiment name (auto-generated if not specified)')
     parser.add_argument('--resume', type=str, default=None,
-                       help='Resume training from checkpoint path')
+                        help='Resume training from checkpoint path')
     parser.add_argument('--pretrained', type=str, default=None,
-                       help='Path to pretrained weights (uses COCO pretrained if not specified)')
+                        help='Path to pretrained weights (uses COCO pretrained if not specified)')
     
     return parser.parse_args()
 
-def get_config_path(mode):
-    """Get the configuration file path based on training mode"""
-    config_dir = Path(__file__).parent / 'configs'
-    if mode == 'single':
-        return config_dir / 'single_class_config.yaml'
-    else:
-        return config_dir / 'multi_class_config.yaml'
 
 def load_config(config_path):
     """Load and validate configuration file"""
+    config_path = Path(config_path)
     if not config_path.exists():
         raise FileNotFoundError(f"Configuration file not found: {config_path}")
     
     with open(config_path, 'r') as f:
         config = yaml.safe_load(f)
     
-    # Validate paths exist
-    for split in ['train', 'val', 'test']:
-        if split in config:
-            path = Path(config[split])
-            if not path.exists():
-                raise FileNotFoundError(f"{split} path does not exist: {path}")
+    # The ultralytics library handles path validation internally now.
     
     return config
 
@@ -75,7 +67,6 @@ def detect_device(requested_device):
     else:
         device = requested_device
     
-    # Validate device
     if device == 'mps' and not (hasattr(torch.backends, 'mps') and torch.backends.mps.is_available()):
         print("⚠️  MPS not available, falling back to CPU")
         device = 'cpu'
@@ -88,18 +79,14 @@ def detect_device(requested_device):
 def train_model(args):
     """Train YOLOv8 model with specified configuration"""
     
-    # Set up configuration
-    config_path = get_config_path(args.mode)
-    config = load_config(config_path)
+    # Set up configuration from the --data argument
+    config = load_config(args.data)
     
-    # Detect and set device
     device = detect_device(args.device)
     
-    # Set experiment name if not provided
     if args.name is None:
-        args.name = f'deepfish_{args.mode}_class_{args.model_size}'
+        args.name = f'fish_{args.mode}_class_{args.model_size}'
     
-    # Initialize model
     if args.resume:
         print(f"📁 Resuming training from: {args.resume}")
         model = YOLO(args.resume)
@@ -108,7 +95,7 @@ def train_model(args):
         model = YOLO(args.pretrained)
     else:
         print(f"📁 Loading COCO pretrained YOLOv8{args.model_size}")
-        model = YOLO(f"yolov8{args.model_size}.pt")
+        model = YOLO("models/" + f"yolov8{args.model_size}.pt")
     
     print(f"🏋️  Training Configuration:")
     print(f"   Mode: {args.mode}-class")
@@ -118,11 +105,10 @@ def train_model(args):
     print(f"   Batch size: {args.batch_size}")
     print(f"   Image size: {args.imgsz}")
     print(f"   Device: {device}")
-    print(f"   Config: {config_path}")
+    print(f"   Config: {args.data}")
     
-    # Training parameters
     train_params = {
-        'data': str(config_path),
+        'data': args.data, # Use the direct path to the data config
         'epochs': args.epochs,
         'imgsz': args.imgsz,
         'batch': args.batch_size,
@@ -139,40 +125,34 @@ def train_model(args):
         'warmup_epochs': 3,
         'save_period': 5,
         'val': True,
-        'rect': False,  # Rectangular training disabled for better compatibility
-        'cos_lr': True,  # Cosine learning rate scheduler
-        'close_mosaic': 10,  # Disable mosaic augmentation in last N epochs
+        'rect': False,
+        'cos_lr': True,
+        'close_mosaic': 10,
     }
     
-    # Mode-specific parameters
     if args.mode == 'single':
-        # Single-class specific optimizations
         train_params.update({
-            'single_cls': True,  # KEY PARAMETER: Treat multi-class dataset as single class
-            'cls': 0.5,          # Classification loss weight
-            'box': 7.5,          # Box regression loss weight  
-            'dfl': 1.5,          # Distribution focal loss weight
+            'single_cls': True,
+            'cls': 0.5,
+            'box': 7.5,
+            'dfl': 1.5,
             'augment': True,
             'mixup': 0.1,
             'copy_paste': 0.1,
         })
-    else:
-        # Multi-class specific optimizations  
+    else: # multi-class
         train_params.update({
-            'single_cls': False,  # Multi-class mode
-            'cls': 1.0,           # Higher classification loss for multi-class
+            'single_cls': False,
+            'cls': 1.0,
             'box': 7.5,
             'dfl': 1.5,
             'augment': True,
-            'mixup': 0.15,        # Higher mixup for multi-class
-            'copy_paste': 0.3,    # Higher copy-paste for multi-class
+            'mixup': 0.15,
+            'copy_paste': 0.3,
         })
     
     print(f"\n🚀 Starting training...")
-    
-    # Train the model
     results = model.train(**train_params)
-    
     print(f"\n✅ Training completed!")
     print(f"📊 Results saved to: {results.save_dir}")
     
@@ -182,7 +162,6 @@ def validate_model(model, config_path, device='auto'):
     """Validate the trained model"""
     print(f"\n🔍 Validating model...")
     
-    # Use the same device detection logic
     device = detect_device(device)
     
     results = model.val(
@@ -208,7 +187,6 @@ def test_model(model, config_path, device='auto'):
     """Test the trained model"""
     print(f"\n🧪 Testing model...")
     
-    # Use the same device detection logic
     device = detect_device(device)
     
     results = model.val(
@@ -234,7 +212,6 @@ def main():
     """Main training pipeline"""
     args = parse_arguments()
     
-    # Print device availability
     print(f"🔧 CUDA available: {torch.cuda.is_available()}")
     if torch.cuda.is_available():
         print(f"🔧 CUDA devices: {torch.cuda.device_count()}")
@@ -242,30 +219,31 @@ def main():
     
     print(f"🔧 MPS available: {hasattr(torch.backends, 'mps') and torch.backends.mps.is_available()}")
     
-    # Test device detection
     detected_device = detect_device(args.device)
     print(f"🔧 Detected device: {detected_device}")
     
-    # Train model
     model, train_results = train_model(args)
     
-    # Get config path for evaluation
-    config_path = get_config_path(args.mode)
+    # Use the data config path from the arguments for evaluation
+    config_path = args.data
     
-    # Validate model
     val_results = validate_model(model, config_path, args.device)
     
-    # Test model  
-    test_results = test_model(model, config_path, args.device)
-    
-    # Save final model
-    output_dir = Path('saved_models')
+    # Check if a 'test' split exists in the config before running the test
+    config = load_config(config_path)
+    if 'test' in config and Path(config['test']).exists():
+        test_results = test_model(model, config_path, args.device)
+        test_map50 = test_results.box.map50
+    else:
+        print("\n⚠️  No 'test' split found in config or path does not exist. Skipping final test.")
+        test_map50 = 0.0
+
+    output_dir = Path('models')
     output_dir.mkdir(exist_ok=True)
     
     model_name = f"yolov8{args.model_size}_{args.mode}_class_fish.pt"
     model_path = output_dir / model_name
     
-    # Copy best weights to saved_models
     best_weights = train_results.save_dir / 'weights' / 'best.pt'
     if best_weights.exists():
         import shutil
@@ -276,7 +254,8 @@ def main():
     print(f"📊 Final Performance:")
     print(f"   Mode: {args.mode}-class")
     print(f"   Validation mAP@0.5: {val_results.box.map50:.4f}")
-    print(f"   Test mAP@0.5: {test_results.box.map50:.4f}")
+    if test_map50 > 0.0:
+        print(f"   Test mAP@0.5: {test_map50:.4f}")
 
 if __name__ == "__main__":
     main()

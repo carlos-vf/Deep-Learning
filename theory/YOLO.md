@@ -40,7 +40,7 @@ Each grid cell also predicts **C conditional class probability** (conditioned on
 
 This means that in total the predictions are contained in a tensor of dimension:
 $$S \times S \times (B\cdot 5 + C)$$
-(for every grid there are $B$ boxes and $C$ probabilities, and each box has 5 numbers and an object confidence score)
+(for every grid there are $B$ boxes and $C$ probabilities, and each box has 4 numbers and an object confidence score)
 
 The network was inspired by GoogLeNet model and it contains 24 convolutional layers followed by 2 fully connected layers.
 
@@ -48,11 +48,11 @@ The network was inspired by GoogLeNet model and it contains 24 convolutional lay
 
 The input is of a $448 \times 448$ RGB image (double the resolution of a standard $224 \times 224$ RGB image). It is divided in a $7 \times 7$ grid (so the image is divided in $49$ cells of $4096$ pixels each).
 
-First, we have a convolutional layer where the kernel has size $7 \times 7 \times 64$ and stride $2$ and a maxpool layer of size $2$. Since the stride is $2$ the resulting layer has height and width halved, but also since the kernel has multiple channels the final layer has $3 \cdot 64 = 192$ channels. The max pooling also halves the representation, obtaining the layer $112 \times 112 \times 192$.
+First, we have a convolutional layer where the kernel has size $7 \times 7 \times 64$ and stride $2$ and a maxpool layer of size $2$. Since the stride is $2$ the resulting layer has height and width halved, but also since the kernel has multiple channels the final layer has $64$ channels. The max pooling also halves the representation and another convolutional kernel raises the number of channels, obtaining the layer $112 \times 112 \times 192$.
 
 A similar sequence of layers (convolutional layers that augment the channels and maxpool layers that halve the representation size) follows until the last 2 fully connected layers. The first FC brings the channels to 1 and the last obtains the $7 \times 7 \times 30$ tensor of predictions. 
 
-To train the network, they first pretrain the first 20 convolutional layers followed by a average-pooling layer and a fully connected layer using the ImageNet dataset. Then they convert the model by adding the 4 convolutional layers and the 2 fully connected layers and train the new network with the weights initialized by the pretraining.
+To train the network, they first pretrain for classification the first 20 convolutional layers followed by a average-pooling layer and a fully connected layer using the ImageNet dataset. Then they convert the model by adding the 4 convolutional layers and the 2 fully connected layers and train the new network with the weights initialized by the pretraining.
 
 All outputs are between 0 and 1 since we parametrize the coordinates and lenghts to be relative measures with respect to the image.
 
@@ -79,4 +79,70 @@ RMK: just like R-CNN also YOLO by dividing the image in cells is "proposing" reg
 - YOLO struggles in identyfing small objects. This is because it imposes strong spatial constrains: each cell has only two boxes and can only have one class. It can't detect multiple small fishes next to each other
 - YOLO has multiple downsampling layers, which means that predictions are based on very blurry features
 - To partially differentiate between errors in large boxes and in small boxes they also predict the square root of the size of the box instead of the size directly. However this is not enough, the main source of error is still incorrect localizations.
+
+## YOLOv2
+
+The main idea is to improve recall and
+localization of YOLOv1 while maintaining classification accuracy.
+
+Since they want to keep the model fast they don't want to just scale up the network. Instead, they apply various ideas to the YOLOv1 network:
+- **Batch normalization**: each activation is shifted and rescaled so that the mean and variance across the batch are the same and can be learned by the network, this method can help regularize the model. This way, they **remove the dropout method** (since its purpose was regularization too).
+- **High resolution classifier**: instead of training a classifier on $224 \times 224$ images and then train an object detector on $448 \times 448$ images, in between they add a step where a new classifier is fine-tuned on $448 \times 448$ images. This way the network doesn't change at the same time the resolution and the task to perform.
+- **Convolutional with anchor boxes**: instead of predicting coordinates of the boxes, they predict offset w.r.t. anchor boxes previously defined. To do so they eliminate one pooling layer (higher resolution) and change input so that the output is going to have $13$ cells. The output in this case is a feature map (equivalent to a channel) that contains the offsets. They want an odd number so that there is only one cell in the center of the image. Also the boxes in one grid cell can predict different classes (in YOLOv1 they all had to predict the same class).
+- **Dimension clusters**: To apply the anchor boxes we would need to hand pick their dimension. To choose them they run k-means clustering on the bounding boxes of the training set. Each cluster is a proposal anchor box, so it represents the number of boxes that will be used as prior. 
+- **Direct location prediction**: If they just applied anchor boxes and offset prediction then the originally predicted boxes can end up anywhere, leading to high instability in the predictions. Instead, they use anchor boxed but they make the prediction of the center of the boxes be relative to the grid cell dimension. This way the final boxes will not be too far from the prior ones (where the prior are the anchor boxes).
+- **Fine-grained features**: they add a passthrough layer that is concatenated with a subsequent lower resolution layer. They are of the same dimension but they are concatenated as many channels.
+- **Multi-scale training**: Every 10 batches the input images dimensions are changed. This make the network learn to generalize better to different images size.
+- **Darknet-19 as classification network**: While YOLOv1 used a variant of GoogleNet they now propose a new base architecture. This network has 19 convolutional layers and 5 maxpooling layers. For every pooling step the number of channels is doubled, just like in VGG models (the most common architectures for feature extraction). It is faster than VGG while mantaining a good accuracy.
+
+**Training process**:
+They first train on imageNet for classification for 160 epochs, using data augmentation. For the fine tuning of classification on higher resolution images they only consider 10 epochs.
+Finally, they remove the last convolutional layer and add 3 convolutional layers, each with 1024 filters (a filter is a kernel, each of them produce an output channel, thus the output layers of the convolution have 1024 channels), and a final $1 \times 1$ convolutional layer. In the paper they predict 5 boxes with 5 coordinate each and 20 classes so the last convolutional layer will have: $(5*(5+20))=125$ channels. Here it is added the passthrough layer. The output tensor will have dimension: $S\times S\times 125$. They train the network for 160 epochs.
+
+**Joint training**: During the training they also mix images from both detection and classification datasets. When the network sees an image for detection the full loss is optimized. When it sees an image for classification the classification loss is optimized. This is doable because the detection datasets usually are detecting the same class and thus it can easily be added to the dataset. Also this helps with the main problem of dataset size difference between the two tasks.
+
+The problem with mixing datasets is that some classes are **not mutually exclusive** (example: dog and husky can be applied to the same image, the network shouldn't have to learn to discriminate between the two).
+Possible solution: **hierarchical classification**. They create a WordTree and at each node they learn a probability distribution over the subcategories. The root of the tree is the class "physical object".
+
+In the end, the mixed training make the network be able to generalize also on new categories well, for example on new animals.
+
+RMK: COCO dataset is made of mutually exclusive classes.
+
+## YOLOv3
+
+They just add some cool and good ideas from other people work.
+
+- Predicts also an objectness score for each bounding box.
+- Instead of using softmax they use **indipendent logistic classifiers**. This also solves the problem of not mutually exclusive datasets.
+- They upgrade the feature extractor to **Darknet-53**. It contains 53 convolutional layers (hence the name) as well as residual layers ("shortcut connections") and pooling laters.
+- They predict boxes at **3 different scales**. The scale determines the number of grid cells the image is divided into. After the base feature extractor (darknet) they add several convolutional layers, the last predicts a 3-d tensor that contains all predictions. By using 3 bounding boxes (each at a different scale) they obtain $N\times N \times (3 \cdot (4+1+80))$ (where N changes based on the scale), where there are $5$ numbers for each box, $80$ classes and $3$ boxes for each grid cell. They take the feature map and upsample it and concatenate with a previous one. They also add more convolutional layers. They used 9 cluster as prior boxes (3 for each scale). The predictions are made for the three scales.
+- They use multi-scale training, data augmentation, batch normalization and "all the standard stuff".
+
+**Results**: better performance, suddently better at detecting small objects. Still not very good on getting the exact box.
+
+**Things that didn't work**:
+- standard anchor box and offset prediction with linear activation
+- linear predictions for the center of the boxes (better logistic activation)
+- focal loss: since many times the proposal anchor boxes do not actually contain objects this lead to class imbalance (too many negatives and few positives). Focal loss adds an extra parameter in the loss that down-weights the effect of weel-classified examples to improve performance 
+- dual IOU thresholds
+
+## Parenthesis: feature pyramid networks
+
+Since in YOLOv3 they start predicting at 3 different scales, we should at least spend a word on a similar concept: feature pyramid networks.
+
+At first, objecton detection models tried to improve accuracy by using **featurized image pyramids**: they processed the same image at different scales, applying a feature extractor independently at each scale. This was very slow and expensive.
+
+Instead, they start from the original image, learn to extract features through a CNN to get to the lowest resolution feature map. Then they create a new feature pyramid from up to bottom by upsampling from the low-resolution feature maps. This process is enhanced by some lateral connections to the high-resolution feature maps.
+
+## YOLOv4
+
+## YOLOv5
+
+## YOLOv6
+
+## YOLOv7
+
+## YOLOv8
+
+### YOLOv8s (small)
 

@@ -8,7 +8,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Unified Fish Tracking and Classification Pipeline.")
     
     parser.add_argument("--source", required=True, help="Path to the input video file OR camera ID (e.g., '0').")
-    parser.add_argument("--yolo-model", default="models/fish.pt", help="Path to the single-class 'fish' YOLO tracker model.")
+    parser.add_argument("--yolo-model", default="models/deepfish_multi.pt", help="Path to the single-class 'deepfish_multi' YOLO tracker model.")
     parser.add_argument("--output-dir", default="outputs", help="Directory to save the results.")
     parser.add_argument("--tracker-config", default="src/tracker/bytetrack.yaml", help="Path to the tracker configuration file.")
     parser.add_argument("--mode", default="standard", choices=["standard", "buffered"],
@@ -19,6 +19,8 @@ if __name__ == "__main__":
 
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
+    Path(output_dir / "logs").mkdir(parents=True, exist_ok=True)
+    Path(output_dir / "videos").mkdir(parents=True, exist_ok=True)
     print(f"✅ Output directory is set to: {output_dir.resolve()}")
 
     # Define the device
