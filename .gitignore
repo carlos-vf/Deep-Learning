@@ -1,8 +1,7 @@
 Datasets/
 data
 venv*
-phase3_outputs/*/
-runs
+src/object_detector/runs/train/*/weights
 outputs/*
 _pycache__
 */*/__pycache__

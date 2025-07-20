@@ -1,6 +1,6 @@
-train: C:\Users\carlo\Desktop\Deep-Learning\data\f4k_YOLO\train\images
-val: C:\Users\carlo\Desktop\Deep-Learning\data\f4k_YOLO\val\images
-test: C:\Users\carlo\Desktop\Deep-Learning\data\f4k_YOLO\test\images
+train: ..\..\..\Datasets\f4k_YOLO\train\images
+val: ..\..\..\Datasets\f4k_YOLO\val\images
+test: ..\..\..\Datasets\f4k_YOLO\test\images
 
 nc: 1
 names: ['Fish']

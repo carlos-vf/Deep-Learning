@@ -30,7 +30,7 @@ def parse_arguments():
                         help='Input image size (default: 640)')
     parser.add_argument('--device', type=str, default='auto',
                         help='Device to use: auto, cpu, cuda (default: auto)')
-    parser.add_argument('--project', type=str, default='runs/train',
+    parser.add_argument('--project', type=str, default='src/object_detector/runs/train',
                         help='Project directory for saving results')
     parser.add_argument('--name', type=str, default=None,
                         help='Experiment name (auto-generated if not specified)')
@@ -50,9 +50,7 @@ def load_config(config_path):
     
     with open(config_path, 'r') as f:
         config = yaml.safe_load(f)
-    
-    # The ultralytics library handles path validation internally now.
-    
+        
     return config
 
 def detect_device(requested_device):
@@ -225,18 +223,24 @@ def main():
     model, train_results = train_model(args)
     
     # Use the data config path from the arguments for evaluation
-    config_path = args.data
+    config_path = Path(args.data)
     
-    val_results = validate_model(model, config_path, args.device)
+    val_results = validate_model(model, str(config_path), args.device)
     
-    # Check if a 'test' split exists in the config before running the test
     config = load_config(config_path)
-    if 'test' in config and Path(config['test']).exists():
-        test_results = test_model(model, config_path, args.device)
-        test_map50 = test_results.box.map50
+    test_map50 = 0.0
+    
+    if 'test' in config and config['test']:
+        # Construct the full path to the test directory relative to the YAML file's location
+        test_path = config_path.parent / config['test']
+        
+        if test_path.exists():
+            test_results = test_model(model, str(config_path), args.device)
+            test_map50 = test_results.box.map50
+        else:
+            print(f"\n⚠️  'test' split path '{test_path}' does not exist. Skipping final test.")
     else:
-        print("\n⚠️  No 'test' split found in config or path does not exist. Skipping final test.")
-        test_map50 = 0.0
+        print("\n⚠️  No 'test' split defined in config. Skipping final test.")
 
     output_dir = Path('models')
     output_dir.mkdir(exist_ok=True)
