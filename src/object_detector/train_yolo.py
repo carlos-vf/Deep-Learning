@@ -19,8 +19,8 @@ def parse_arguments():
                        help='Training mode: single-class or multi-class (default: single)')
     parser.add_argument('--model_size', type=str, choices=['n', 's', 'm', 'l', 'x'], default='s',
                        help='YOLO model size (default: s)')
-    parser.add_argument('--epochs', type=int, default=100,
-                       help='Number of training epochs (default: 100)')
+    parser.add_argument('--epochs', type=int, default=50,
+                       help='Number of training epochs (default: 50)')
     parser.add_argument('--batch_size', type=int, default=16,
                        help='Batch size for training (default: 16)')
     parser.add_argument('--imgsz', type=int, default=640,
@@ -131,13 +131,13 @@ def train_model(args):
         'name': args.name,
         'save': True,
         'plots': True,
-        'patience': 30,
+        'patience': 10,
         'workers': 4,
         'optimizer': 'AdamW',
-        'lr0': 0.01,
+        'lr0': 0.001,
         'weight_decay': 0.0005,
         'warmup_epochs': 3,
-        'save_period': 10,
+        'save_period': 5,
         'val': True,
         'rect': False,  # Rectangular training disabled for better compatibility
         'cos_lr': True,  # Cosine learning rate scheduler
