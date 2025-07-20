@@ -19,6 +19,8 @@ if __name__ == "__main__":
 
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
+    Path(output_dir / "logs").mkdir(parents=True, exist_ok=True)
+    Path(output_dir / "videos").mkdir(parents=True, exist_ok=True)
     print(f"✅ Output directory is set to: {output_dir.resolve()}")
 
     # Define the device

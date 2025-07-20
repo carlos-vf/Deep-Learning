@@ -40,7 +40,7 @@ def create_yolo_dataset(base_path, output_path, val_ratio=0.2, test_ratio=0.1):
     print(f"✅ Created single-class data.yaml at {output_path / 'data.yaml'}")
 
     # 3. Find all videos to process
-    video_files = sorted(list(base_path.rglob('*.mp4')))
+    video_files = sorted(list((base_path / "videos").rglob('*.mp4')))
     if not video_files:
         print(f"❌ Error: No .mp4 video files found recursively in '{base_path}'.")
         return
@@ -48,7 +48,7 @@ def create_yolo_dataset(base_path, output_path, val_ratio=0.2, test_ratio=0.1):
 
     # 4. Process each video individually
     for video_path in tqdm(video_files, desc="Processing Videos"):
-        xml_path = base_path / f"{video_path.stem}.xml"
+        xml_path = base_path / "gt_bounding_boxes" / f"{video_path.stem}.xml"
         if not xml_path.exists():
             print(f"Warning: No XML found for {video_path.name}, skipping.")
             continue
@@ -74,7 +74,7 @@ def create_yolo_dataset(base_path, output_path, val_ratio=0.2, test_ratio=0.1):
             if frame_annotations:
                 annotations[frame_id] = frame_annotations
 
-        # --- NEW LOGIC: Proportional split of frames WITHIN this video ---
+        # Proportional split of frames WITHIN this video
         annotated_frame_ids = sorted(list(annotations.keys()))
         random.shuffle(annotated_frame_ids)
 
@@ -129,8 +129,8 @@ def create_yolo_dataset(base_path, output_path, val_ratio=0.2, test_ratio=0.1):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Prepare a single-class YOLO dataset from the F4K dataset.")
-    parser.add_argument("--base-path", required=True, help="Path to the root directory of your source F4K dataset.")
-    parser.add_argument("--output-path", required=True, help="Path where the new YOLO-formatted dataset will be created.")
+    parser.add_argument("--base-path", default="Datasets/f4k", help="Path to the root directory of your source F4K dataset.")
+    parser.add_argument("--output-path", default="Datasets/f4k_YOLO", help="Path where the new YOLO-formatted dataset will be created.")
     parser.add_argument('--val-ratio', type=float, default=0.2, help='Ratio of validation data (default: 0.2)')
     parser.add_argument('--test-ratio', type=float, default=0.1, help='Ratio of test data (default: 0.1)')
     parser.add_argument('--seed', type=int, default=42, help='Random seed for reproducible splits (default: 42)')
