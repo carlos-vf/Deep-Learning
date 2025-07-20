@@ -19,8 +19,8 @@ def parse_arguments():
                        help='Training mode: single-class or multi-class (default: single)')
     parser.add_argument('--model_size', type=str, choices=['n', 's', 'm', 'l', 'x'], default='s',
                        help='YOLO model size (default: s)')
-    parser.add_argument('--epochs', type=int, default=100,
-                       help='Number of training epochs (default: 100)')
+    parser.add_argument('--epochs', type=int, default=50,
+                       help='Number of training epochs (default: 50)')
     parser.add_argument('--batch_size', type=int, default=16,
                        help='Batch size for training (default: 16)')
     parser.add_argument('--imgsz', type=int, default=640,
@@ -131,17 +131,18 @@ def train_model(args):
         'name': args.name,
         'save': True,
         'plots': True,
-        'patience': 30,
+        'patience': 10,
         'workers': 4,
         'optimizer': 'AdamW',
-        'lr0': 0.01,
+        'lr0': 0.001,
         'weight_decay': 0.0005,
         'warmup_epochs': 3,
-        'save_period': 10,
+        'save_period': 5,
         'val': True,
         'rect': False,  # Rectangular training disabled for better compatibility
         'cos_lr': True,  # Cosine learning rate scheduler
         'close_mosaic': 10,  # Disable mosaic augmentation in last N epochs
+        'augment': True, # to enable better generalisation
     }
     
     # Mode-specific parameters
@@ -152,9 +153,8 @@ def train_model(args):
             'cls': 0.5,          # Classification loss weight
             'box': 7.5,          # Box regression loss weight  
             'dfl': 1.5,          # Distribution focal loss weight
-            'augment': True,
-            'mixup': 0.1,
-            'copy_paste': 0.1,
+            'mixup': 0.0,
+            'copy_paste': 0.0,
         })
     else:
         # Multi-class specific optimizations  
@@ -163,7 +163,6 @@ def train_model(args):
             'cls': 1.0,           # Higher classification loss for multi-class
             'box': 7.5,
             'dfl': 1.5,
-            'augment': True,
             'mixup': 0.15,        # Higher mixup for multi-class
             'copy_paste': 0.3,    # Higher copy-paste for multi-class
         })
