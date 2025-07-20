@@ -13,14 +13,14 @@ if __name__ == "__main__":
     parser.add_argument("--tracker-config", default="src/tracker/bytetrack.yaml", help="Path to the tracker configuration file.")
     parser.add_argument("--mode", default="standard", choices=["standard", "buffered"],
                         help="Processing mode: 'standard' or 'buffered'.")
-    parser.add_argument("--min-duration", type=int, default=5, 
+    parser.add_argument("--min-duration", type=int, default=2, 
                         help="Minimum frames for a track to be considered stable (for buffered mode).")
     args = parser.parse_args()
 
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
-    Path(output_dir / "logs").mkdir(parents=True, exist_ok=True)
-    Path(output_dir / "videos").mkdir(parents=True, exist_ok=True)
+    Path(output_dir / "logs" / f"{args.mode}").mkdir(parents=True, exist_ok=True)
+    Path(output_dir / "videos" / f"{args.mode}").mkdir(parents=True, exist_ok=True)
     print(f"✅ Output directory is set to: {output_dir.resolve()}")
 
     # Define the device

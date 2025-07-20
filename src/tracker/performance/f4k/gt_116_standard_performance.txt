@@ -1,0 +1,4 @@
+--- Tracking Metrics for video: gt_116 (Mode: Standard) ---
+
+        IDF1   IDP   IDR  Rcll  Prcn GT MT PT ML FP  FN IDs  FM  MOTA  MOTP IDt IDa IDm
+gt_116 31.0% 57.1% 21.3% 26.1% 70.0% 14  0  5  9 21 139   4   3 12.8% 0.259   1   4   1

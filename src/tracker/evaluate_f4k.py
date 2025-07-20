@@ -158,7 +158,9 @@ def main():
     print(strsummary_overall)
 
     # Save the final summary report
-    summary_file_path = output_dir / "f4k_overall_performance_summary.txt"
+    mode = str(ts_dir).split("\\")[-1]
+    print(f"Mode: {mode}")
+    summary_file_path = output_dir / ("f4k_" + f"{mode}" + "_overall_performance_summary.txt")
     with open(summary_file_path, 'w') as f:
         f.write(f"{header_text_overall}\n\n")
         f.write(strsummary_overall)

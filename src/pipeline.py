@@ -23,8 +23,8 @@ def run_standard_pipeline(yolo_model, input_source, output_dir, tracker_config_p
     
     if not is_real_time:
         video_path = Path(input_source)
-        video_output_path = Path(output_dir) / "videos" / f"{video_path.stem}_standard_classified.mp4"
-        txt_output_path = Path(output_dir) / "logs" / f"{video_path.stem}_standard_results.txt"
+        video_output_path = Path(output_dir) / "videos/standard" / f"{video_path.stem}_standard_classified.mp4"
+        txt_output_path = Path(output_dir) / "logs/standard" / f"{video_path.stem}_standard_results.txt"
         txt_file = open(txt_output_path, "w")
 
         cap_meta = cv2.VideoCapture(input_source)
@@ -107,8 +107,8 @@ def run_buffered_pipeline(yolo_model, input_source, output_dir, tracker_config_p
 
     if not is_real_time:
         video_path = Path(input_source)
-        video_output_path = Path(output_dir) / "videos" / f"{video_path.stem}_buffered_classified.mp4"
-        txt_output_path = Path(output_dir) / "logs" / f"{video_path.stem}_buffered_results.txt"
+        video_output_path = Path(output_dir) / "videos/buffered" / f"{video_path.stem}_buffered_classified.mp4"
+        txt_output_path = Path(output_dir) / "logs/buffered" / f"{video_path.stem}_buffered_results.txt"
         txt_file = open(txt_output_path, "w")
 
         cap_meta = cv2.VideoCapture(input_source)
