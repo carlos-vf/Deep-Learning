@@ -1,0 +1,75 @@
+%\documentclass[serif, aspectratio=169]{beamer}  % for 16:9 ratio
+\documentclass[serif]{beamer}  % for 4:3 ratio
+\usepackage[T1]{fontenc} 
+\usepackage{hyperref}
+\usepackage{latexsym,amsmath,xcolor,multicol,booktabs,calligra}
+\usepackage{graphicx,pstricks,listings,stackengine}
+
+\author{
+    Valeria De Stasio \\ 
+    \and  
+    Christian Faccio \\
+    \and  
+    Carlos Velàzques Fernàndez
+}
+\title{Detection and tracking of fishes: \\ an analysis of the YOLOv8 model}
+\date{\small July 25, 2025}
+\usepackage{UoWstyle}
+
+% defs
+\def\cmd#1{\texttt{\color{red}\footnotesize $\backslash$#1}}
+\def\env#1{\texttt{\color{blue}\footnotesize #1}}
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{RGB}{153,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+\definecolor{halfgray}{gray}{0.55}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\bfseries\color{deepblue},
+    emphstyle=\ttfamily\color{deepred},    % Custom highlighting style
+    stringstyle=\color{deepgreen},
+    numbers=left,
+    numberstyle=\small\color{halfgray},
+    rulesepcolor=\color{red!20!green!20!blue!20},
+    frame=shadowbox,
+}
+
+
+\begin{document}
+
+\begin{frame}
+    \vfill
+    \begin{center}
+        \includegraphics[keepaspectratio, scale=0.15]{images/logo.jpg}
+        
+        \vspace{1cm}
+        
+        \begin{beamercolorbox}[wd=\textwidth,center,rounded=true]{title}
+            {\Large\textbf{Detection and tracking of fishes: \\ an analysis of the YOLOv8 model}}
+        \end{beamercolorbox}
+        
+        \vspace{1cm}
+        
+        {July 25, 2025}
+    \end{center}
+    \vfill
+\end{frame}
+
+\begin{frame}    
+\tableofcontents[sectionstyle=show,
+subsectionstyle=show/shaded/hide,
+subsubsectionstyle=show/shaded/hide]
+\end{frame}
+
+\section{Theory}
+
+\section{Models}
+
+\section{Tracking}
+
+\section{Results}
+
+\section{Conclusions}
+
+\end{document}
