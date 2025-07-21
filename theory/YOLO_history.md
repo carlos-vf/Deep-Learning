@@ -1,6 +1,9 @@
 # YOLO architecture and theory
+
+[YOLO timeline](YOLO_timeline.pdf)
+
 ## Introduction
-YOLO is a fast object detection architecture based on Convolutional Neural Networks that works extremely fast thanks to its *proposal-free* scheme.
+YOLO is a fast object detection architecture based on Convolutional Neural Networks that works extremely fast thanks to its *proposal-free* scheme (also called single-shot detection).
 
 Instead of predicting a class (the presence of a ceratin object) given a subsection of the image, YOLO predicts the bounding box coordinates from the whole image. Object detection is thus reframed as a regression problem, which makes the prediction much faster, at the cost of slightly less accuracy.
 
@@ -152,16 +155,15 @@ Object detectors developed in recent years usually insert some layers between ba
 - Modules that introduce an **attention mechanism** like **Squeeze-and-Excitation (SE)** or **Spatial Attention Module (SAM)**. SE will actually raise the inference too much, but SAM doesn't affect inference time at all, just a little the training time.
 - Modules that introduce **feature integration** (also called **path aggregation**) like skip connection or feature pyramids like **Feature Pyramid Networks (FPN)** or **(SFAM)**.
 - Finding good **activation functions**. Many have been proposed to solve the gradient vanish problem (refer to the book). ???
-- Post-processing methods like **Non-Maximum Suppresion (NMS)**, where BBoxes that badly predict the same object are filtered out. This is no longer required in anchor-free methods. ???
+- Post-processing methods like **Non-Maximum Suppresion (NMS)**, where BBoxes that badly predict the same object (redundant or incorrect BBoxes) are filtered out so that the output is a single bounding box for each object in the image. This is no longer required in anchor-free methods. ???
 
 
 ## YOLOv4 (2020)
 The main focus of this work is to make the training more **efficient**: they optimize YOLOv3 such that it can provide an high-quality, real-time convining object-detector even when trained on less resources (like single GPU training).
 
-Specifically, they tried to find optimal balance between the input network resolution, the convolutional layer number, the
-parameter number ($\text{filter_size}**2 \cdot \text{filters} \cdot \text{channel} / \text{groups}$), and the number of layer outputs (filters).
+Specifically, they tried to find optimal balance between the input network resolution, the convolutional layer number, the parameter number ($\text{filter\_size}^2 \cdot \text{filters} \cdot \frac{\text{channel}}{\text{groups}}$), and the number of layer outputs ($\text{filters}$).
 
-By experimenting with different backbones they noticed that their performance differed on different datasets. One could perform better on a specific dataset, but worse in a different one. They considered that the ideal case was a network with *larger receptive field size* and a *larger number of parameters*, so they chose a variant of **DarkNet as backbone**.
+By experimenting with different backbones they noticed that their performance differed on different datasets. One could perform better on a specific dataset, but worse in a different one. They considered that the ideal case was a network with *larger receptive field size* and a *larger number of parameters*, so they chose a variant of **DarkNet (CSPNet) as backbone**.
 
 In general more parameters lead to a greater capacity of the model to detect multiple objects of different sizes in a single image. Also a large receptive field allows viewing the entire object/context.
 
@@ -198,15 +200,73 @@ They provide all the hyperparameters they used. They used ImageNet for classific
 
 They experimented many parameters and features.
 
-
 ## YOLOv5 (2020)
+YOLOv5 has a modular structure, allowing for easy customisation, which is an important reason for its popularity.
+
+YOLOv5 uses a **Cross-Stage Partial (CSP)** Net (CSPDarknet53) as the **backbone**.
+
+It uses a **spatial pyramid pooling - fast (SPPF)** module (allowing feature extraction at various scales) and a **Path Aggregation Network (PAN)** module as the **neck** for effective multi-scale feature fusion, along with additional up-sampling layers to improve the resolution of feature maps.
+The **head** of YOLOv5 consists of a sequence of **convolutional layers** that generate predictions for bounding boxes and class labels, specifically YOLOv3. YOLOv5 utilises **anchor-based predictions**, linking each bounding box with a set of predefined anchor boxes of specific shapes and sizes. 
+
+As activation function it uses Leaky ReLu. The loss function calculation involves two main components: **binary cross-entropy** (for computing class and objectness losses) and **Complete Intersection over Union (CIoU)** (for localization accuracy).
+
+YOLOv5 incorporates **mosaic augmentation** and **CutOut** to enhance its ability to generalize to new situations. It uses the **Non-Maximal Suppression (NMS)** post-processing technique.
 
 ## YOLOv6 (2022)
+New version that uses a different network (EfficientNet-L2) as backbone.
+
+It also introduces a new method for generating the anchor boxes, called "dense anchor boxes".
 
 ## YOLOv7 (2022)
+Nothing of interest.
 
 ## YOLOv8 (2023)
+The main improvement of YOLOv8 was introducing anchor-free detection, which simplified the architecture and improved the detection of small objects.
+
+The **backbone** is made by an enhanced version of the **CSPDarknet** which contains multiple **Cross Stage Partial (CSP)** block. Each block contains a split operation (part of the feature map is passed to convolutional layers and the other is directly concatenated to the output of the block), a dense block, a transition layer and a concatenation operation.
+
+It uses advanced activation functions like SiLU (Swish) improving gradient flow and feature expressiveness.
+It uses task-specific losses (the model provides for multiple tasks like detection, segmentation or classification) and Mosaic augmentation, Cutout and MixUp.
+
+The **neck** is made by a **Path Aggregation Network (PANet)**, this network is build upon *Feature pyramid networks (FPN)* with an additional bottom-up path. Specifically, it contains a bottom-up path for feature extraction, a top-down path for semantic feature propagation, and an additional bottom-up path for further feature hierarchy enhancement. At each level, features from corresponding bottom-up and top-down path are fused usually through element-wise addition or concatenation. It also introduces adaptive feature pooling to enhance multi-scale feature fusion, pooling features from all levels for each Region of Interest (RoI). This design improves the network’s ability to detect objects at various scales, essential to imrpove detection on small objects.
+
+The **head** is an **anchor-free detection head**. This simplifies the model architecture and reduces computational overhead, leading to faster inference times. The anchor-free approach also improves the model’s ability to detect small and densely packed objects.
+
+In all three components it is also used the **C2f (Cross Stage Partial with two fusion)** building block which enhances feature extraction and fusion.
+
+It uses some post-processing techniques:
+- Improved Non-Maximum Suppression (NMS): enhanced version that reduces the number of false positives and improves the precision of object detection. how??
+
+To enhance training efficiency YOLOv8 uses:
+- mixed-precision training that combines 16-bit and 32-bit floating-point operations.
+- automated hyperparameter optimization where multiple training experiments are run with different hyperparameters settings. 
+
+YOLOv8’s shift to an anchor-free detection head and the introduction of task-specific heads expanded themodel’s versatility, allowing it to handle a wider range of computer vision tasks.
 
 ### YOLOv8s (small)
 
-(Fun fact! Yolov10 was introduced in 2024)
+On COCO dataset the YOLOv8s obtains 44.9% Average Precision and 28.6 billion Floating-point Operations per Second (FLOPS).
+
+(Fun fact! Yolov10 was introduced in 2024 and makes use of NMS-free training, making it particularly efficient for edge devices with limited resources)
+
+# Why did we choose YOLOv8?
+*"Although there are more than ten versions of YOLO, YOLOv5, YOLOv8, and YOLOv10 have gained particular prominence in edge deployment scenarios. These three variants stand out due to their optimal balance of speed, accuracy, and efficiency, making them especially suitable for resource-constrained environments."*
+Reasons:
+- Optimized Performance, good balance between efficiency and accuracy
+- Scalability, each variant provides multiple sub-variants with respect to architectural depth (nano, small, etc.)
+- Ease of Deployment, YOLOv8’s unified API significantly simplify the deployment process
+- Continuous Improvement over the previous versions
+- Community Support, strong community backing and regular updates
+
+
+# References
+- Ren et al. "Faster r-cnn: towards realtime object detection with region proposal networks." (2015)
+- He et al. "Spatial pyramid pooling in deep convolutional networks for visual recognition." (2015)
+- Redmon et al. "You only look once: unified, real-time object detection." (2016)
+- Lin et al. "Feature pyramid networks for object detection." (2017)
+- Redmon and Farhadi "Yolo9000: better, faster, stronger." (2017)
+- Joseph and Ali "Yolov3: an incremental improvement." (2018)
+- Bochkovskiy et al. "Yolov4: optimal speed and accuracy of object detection." (2020)
+- Chuyi et al "YOLOv6: ASingle-Stage Object Detection Framework for Industrial Applications" (2022)
+- Chien-Yao et al. "YOLOv7: Trainable bag-of-freebies sets new state-of-the-art for real-time object detectors" (2022)
+- Hussain "YOLOv5, YOLOv8 and YOLOv10: the go-to detectors for real-time vision." (2024)

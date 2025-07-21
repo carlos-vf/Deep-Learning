@@ -69,10 +69,22 @@ Datasets used in literature:
 - DeepFish
 - OzFish
 
-## Model performance evaluation
-For the task of species classification we can use Precision, Recall or the Mean Average Precision (MAP).
+## Metrics for model performance evaluation
+For the task of species *classification* we can use:
+- Precision, which is the ratio of all correct predictions of a class and all predictions of that class.
+- Recall, which is the ratio of all correct predictions of a class and all the actual instances of that class.
+- Average Precision (AP), which is the area under a precision vs. recall curve for a set of predictions (where the curve is obtained by varying a threshold).
+- Mean Average Precision (mAP), which is the average of the AP over all classes.
 
-We can use these metrics also for fish detection, by considering as a False Positive a box is labeled as fish when it was not a fish and a False Negative when a fish box was not identified.  
+Precision, Recall and AP are better if they are high (maximum is 1). They are specific for a class.
+If there is only one class (like "fish") then the AP and mAP coincide.
+
+We can use these metrics also for fish *detection*, by considering as a False Positive when a box is labeled as fish when it was not a fish and a False Negative when an actual fish box was not identified.
+
+In case of detection we can consider:
+- Intersection Over Union (IoU), which is the ratio between the intersecting area of the predicted box and the ground truth box and their union area. The higher, the better (maximum is 1). 
+
+Terms like AP50 indicates the average precision when using the 50 IoU threshold, i.e., AP when we consider that a box correctly found a fish only if the IoU with the tue box is higher than 0.50. If the predicted box is off than more than half then we do not consider the fish as guessed.
 
 ## References:
 - Salman et al. "Fish species classification in unconstrained underwater environments based on deep learning" (2016)
@@ -88,11 +100,3 @@ We can use these metrics also for fish detection, by considering as a False Posi
 - Khiem et al. "A novel approach combining YOLO and DeepSORT for detecting and counting live fish in natural environments through video" (2025)
 - Li et al. "Enhancing aquatic ecosystem monitoring through fish jumping behavior analysis and YOLOV5: Applications in freshwater fish identification" (2025)
 
-Articles for the YOLO architecture and its modules:
-- Redmon et al. "You only look once: unified, real-time object detection." (2016)
-- Redmon and Farhadi "Yolo9000: better, faster, stronger." (2017)
-- Ren et al. "Faster r-cnn: towards realtime object detection with region proposal networks." (2015)
-- Joseph and Ali "Yolov3: an incremental improvement." (2018)
-- Lin et al. "Feature pyramid networks for object detection." (2017)
-- Bochkovskiy et al. "Yolov4: optimal speed and accuracy of object detection." (2020)
-- He et al. "Spatial pyramid pooling in deep convolutional networks for visual recognition." (2015)
