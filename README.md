@@ -2,7 +2,9 @@
 
 ![Video Demo](videos/7426_standard_classified.git)
 
-This project implements a complete computer vision pipeline to process underwater video footage. The system is designed to perform three core tasks:
+This project implements a complete computer vision pipeline to process underwater video footage. The system is designe
+
+d to perform three core tasks:
 
 1.  **Detection**: Identify and locate fish within each frame of a video.
 2.  **Tracking**: Assign a unique, persistent ID to each detected fish and follow it across multiple frames.
