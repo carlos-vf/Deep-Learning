@@ -1,6 +1,6 @@
 # Underwater Fish Detection, Tracking, and Classification
 
-![Video Demo](videos/7426_standard_classified.git)
+![Video Demo](presentation/videos/7426_standard_classified.git)
 
 This project implements a complete computer vision pipeline to process underwater video footage. The system is designed to perform three core tasks:
 
