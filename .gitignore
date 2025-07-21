@@ -2,7 +2,6 @@ Datasets/
 data
 venv*
 src/object_detector/runs/train/*/weights
-outputs/*/videos
 _pycache__
 */*/__pycache__
 */__pycache__
