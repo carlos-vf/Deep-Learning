@@ -1,6 +1,8 @@
 # Underwater Fish Detection, Tracking, and Classification
 
-
+<video width "600" controls>
+    <source src="presentation/videos/7426_standard_classification.mp4" type="video/mp4">
+</video>
 
 ## Project Overview
 
