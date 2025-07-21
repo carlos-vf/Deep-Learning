@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.18.0 (TeX Live 2024)  (format=lualatex 2024.11.6)  21 JUL 2025 17:53
+This is LuaHBTeX, Version 1.18.0 (TeX Live 2024)  (format=lualatex 2024.11.6)  21 JUL 2025 19:42
  restricted system commands enabled.
 **presentation.tex
 (./presentation.tex
@@ -997,13 +997,21 @@ LaTeX Info: Redefining \addtolength on input line 81.
 \@centerbox=\box132
 \c@ROWcellindex@=\count387
 )
+(/usr/local/texlive/2024/texmf-dist/tex/latex/beamer/multimedia.sty
+Package: multimedia 2012/05/02 ver 0.02
+
+(/usr/local/texlive/2024/texmf-dist/tex/generic/iftex/ifpdf.sty
+Package: ifpdf 2019/10/25 v3.4 ifpdf legacy package. Use iftex instead.
+)
+\mm@movie=\count388
+)
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\\' on input line 14.
+(hyperref)                removing `\\' on input line 15.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\\' on input line 14.
+(hyperref)                removing `\\' on input line 15.
 
 (./UoWstyle.sty
 (/usr/local/texlive/2024/texmf-dist/tex/latex/beamer/beamerouterthemesmoothbars
@@ -1012,39 +1020,39 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 y))
 (/usr/local/texlive/2024/texmf-dist/tex/latex/l3backend/l3backend-luatex.def
 File: l3backend-luatex.def 2024-02-20 L3 backend support: PDF output (LuaTeX)
-\l__color_backend_stack_int=\count388
+\l__color_backend_stack_int=\count389
 Inserting `l3color' in `luaotfload.parse_color'.
 \l__pdf_internal_box=\box133
 )
 (./presentation.aux)
 \openout1 = presentation.aux
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 39.
-LaTeX Font Info:    ... okay on input line 39.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 39.
-LaTeX Font Info:    ... okay on input line 39.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 39.
-LaTeX Font Info:    ... okay on input line 39.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 39.
-LaTeX Font Info:    ... okay on input line 39.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 39.
-LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 3
-9.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 40.
+LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 4
+0.
 
 (/usr/local/texlive/2024/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2023/04/13 v2.5m Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 39.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 39.
-LaTeX Font Info:    ... okay on input line 39.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 39.
-LaTeX Font Info:    ... okay on input line 39.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 39.
-LaTeX Font Info:    ... okay on input line 39.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 39.
-LaTeX Font Info:    ... okay on input line 39.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 39.
-LaTeX Font Info:    ... okay on input line 39.
+LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: luatex
@@ -1082,16 +1090,16 @@ LaTeX Font Info:    ... okay on input line 39.
 
 (/usr/local/texlive/2024/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count389
+\scratchcounter=\count390
 \scratchdimen=\dimen348
 \scratchbox=\box134
-\nofMPsegments=\count390
-\nofMParguments=\count391
+\nofMPsegments=\count391
+\nofMParguments=\count392
 \everyMPshowfont=\toks53
-\MPscratchCnt=\count392
+\MPscratchCnt=\count393
 \MPscratchDim=\dimen349
-\MPnumerator=\count393
-\makeMPintoPDFobject=\count394
+\MPnumerator=\count394
+\makeMPintoPDFobject=\count395
 \everyMPtoPDFconversion=\toks54
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
@@ -1102,7 +1110,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-Package hyperref Info: Link coloring OFF on input line 39.
+Package hyperref Info: Link coloring OFF on input line 40.
 
 (./presentation.out) (./presentation.out)
 \@outlinefile=\write5
@@ -1111,41 +1119,41 @@ Package hyperref Info: Link coloring OFF on input line 39.
 \symnumbers=\mathgroup7
 \sympureletters=\mathgroup8
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `normal'
-(Font)                  OT1/cmr/m/n --> T1/lmr/m/n on input line 39.
-LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 39.
+(Font)                  OT1/cmr/m/n --> T1/lmr/m/n on input line 40.
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 40.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/cmr/bx/n --> T1/lmr/b/n on input line 39.
+(Font)                  OT1/cmr/bx/n --> T1/lmr/b/n on input line 40.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  OT1/cmr/bx/n --> T1/lmr/b/n on input line 39.
-LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 39.
+(Font)                  OT1/cmr/bx/n --> T1/lmr/b/n on input line 40.
+LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 40.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/cmss/m/n --> T1/lmss/m/n on input line 39.
+(Font)                  OT1/cmss/m/n --> T1/lmss/m/n on input line 40.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> T1/lmss/m/n on input line 39.
-LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 39.
+(Font)                  OT1/cmss/bx/n --> T1/lmss/m/n on input line 40.
+LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 40.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/cmr/m/it --> T1/lmr/m/it on input line 39.
+(Font)                  OT1/cmr/m/it --> T1/lmr/m/it on input line 40.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmr/bx/it --> T1/lmr/m/it on input line 39.
-LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 39.
+(Font)                  OT1/cmr/bx/it --> T1/lmr/m/it on input line 40.
+LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 40.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/cmtt/m/n --> T1/lmtt/m/n on input line 39.
+(Font)                  OT1/cmtt/m/n --> T1/lmtt/m/n on input line 40.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> T1/lmtt/m/n on input line 39.
+(Font)                  OT1/cmtt/m/n --> T1/lmtt/m/n on input line 40.
 LaTeX Font Info:    Overwriting symbol font `numbers' in version `bold'
-(Font)                  T1/lmr/m/n --> T1/lmr/b/n on input line 39.
+(Font)                  T1/lmr/m/n --> T1/lmr/b/n on input line 40.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
-(Font)                  T1/lmr/m/it --> T1/lmr/b/it on input line 39.
+(Font)                  T1/lmr/m/it --> T1/lmr/b/it on input line 40.
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `bold'
-(Font)                  OT1/cmr/bx/n --> T1/lmr/b/n on input line 39.
+(Font)                  OT1/cmr/bx/n --> T1/lmr/b/n on input line 40.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  T1/lmr/b/n --> T1/lmr/b/n on input line 39.
+(Font)                  T1/lmr/b/n --> T1/lmr/b/n on input line 40.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  T1/lmss/m/n --> T1/lmss/b/n on input line 39.
+(Font)                  T1/lmss/m/n --> T1/lmss/b/n on input line 40.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  T1/lmr/m/it --> T1/lmr/b/it on input line 39.
+(Font)                  T1/lmr/m/it --> T1/lmr/b/it on input line 40.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  T1/lmtt/m/n --> T1/lmtt/b/n on input line 39.
+(Font)                  T1/lmtt/m/n --> T1/lmtt/b/n on input line 40.
 
 (/usr/local/texlive/2024/texmf-dist/tex/latex/translator/translator-basic-dicti
 onary-English.dict
@@ -1171,28 +1179,37 @@ Dictionary: translator-numbers-dictionary, Language: English
 tionary-English.dict
 Dictionary: translator-theorem-dictionary, Language: English 
 )
-\c@lstlisting=\count395
+\c@lstlisting=\count396
  (./presentation.nav)
-<images/logo.jpg, id=63, 903.375pt x 304.13625pt>
+<images/logo.jpg, id=66, 903.375pt x 304.13625pt>
 File: images/logo.jpg Graphic file (type jpg)
 <use images/logo.jpg>
-Package luatex.def Info: images/logo.jpg  used on input line 57.
+Package luatex.def Info: images/logo.jpg  used on input line 58.
 (luatex.def)             Requested size: 135.5004pt x 45.61845pt.
  [1{/usr/local/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
-<./images/logo.jpg>] (./presentation.toc)
+<./images/logo.jpg>]
+Overfull \hbox (56.90549pt too wide) in paragraph at lines 63--63
+[][][][]  
+ []
+
 [2
 
 ] (./presentation.toc) [3
 
 ] (./presentation.toc) [4
 
-] (./presentation.toc)
-[5
+] [5
 
-] (./presentation.toc) [6
+] (./presentation.toc)
+[6
 
 ] (./presentation.toc) [7
+
+] (./presentation.toc) [8
+
+] (./presentation.toc)
+[9
 
 ]
 \tf@nav=\write6
@@ -1214,25 +1231,25 @@ Package rerunfilecheck Info: File `presentation.out' has not changed.
 )
 
 Here is how much of LuaTeX's memory you used:
- 25927 strings out of 476447
+ 26072 strings out of 476447
  100000,1977958 words of node,token memory allocated
- 6410 words of node memory still in use:
-   113 hlist, 14 vlist, 4 rule, 12 disc, 7 local_par, 142 glue, 21 kern, 15 pena
-lty, 94 glyph, 418 attribute, 66 glue_spec, 418 attribute_list, 4 write, 187 pdf
-_literal, 15 pdf_start_link, 15 pdf_end_link, 15 pdf_action, 86 pdf_colorstack n
+ 6675 words of node memory still in use:
+   119 hlist, 14 vlist, 4 rule, 12 disc, 7 local_par, 148 glue, 22 kern, 15 pena
+lty, 94 glyph, 442 attribute, 66 glue_spec, 442 attribute_list, 4 write, 201 pdf
+_literal, 16 pdf_start_link, 16 pdf_end_link, 16 pdf_action, 88 pdf_colorstack n
 odes
-   avail lists: 2:949,3:659,4:352,5:184,6:63,7:1319,9:725,10:5,11:49
- 47175 multiletter control sequences out of 65536+600000
- 22 fonts using 1220151 bytes
+   avail lists: 2:997,3:707,4:358,5:187,6:64,7:1421,9:746,10:5,11:65
+ 47306 multiletter control sequences out of 65536+600000
+ 21 fonts using 1137471 bytes
  101i,20n,101p,410b,902s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}</usr/local/tex
-live/2024/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/local/texlive/2024/t
+live/2024/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/local/texlive/2024/t
 exmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/2024/texmf-dist/fo
 nts/type1/public/lm/lmr6.pfb>
-Output written on presentation.pdf (7 pages, 211143 bytes).
+Output written on presentation.pdf (9 pages, 216972 bytes).
 
-PDF statistics: 428 PDF objects out of 1000 (max. 8388607)
- 320 compressed objects within 4 object streams
- 20 named destinations out of 1000 (max. 131072)
- 106 words of extra memory for PDF output out of 10000 (max. 100000000)
+PDF statistics: 532 PDF objects out of 1000 (max. 8388607)
+ 391 compressed objects within 4 object streams
+ 24 named destinations out of 1000 (max. 131072)
+ 116 words of extra memory for PDF output out of 10000 (max. 100000000)
 
