@@ -85,13 +85,14 @@ RMK: just like R-CNN also YOLO by dividing the image in cells is "proposing" reg
 
 ## YOLOv2 (2016)
 
-The main idea is to improve recall and
-localization of YOLOv1 while maintaining classification accuracy.
+The main idea is to improve recall and localization of YOLOv1 while maintaining classification accuracy.
+
+The main change is considered to be the introduction of anchors. This is done to better handle objects at different scales and aspect ratios.
 
 Since they want to keep the model fast they don't want to just scale up the network. Instead, they apply various ideas to the YOLOv1 network:
 - **Batch normalization**: each activation is shifted and rescaled so that the mean and variance across the batch are the same and can be learned by the network, this method can help regularize the model. This way, they **remove the dropout method** (since its purpose was regularization too).
 - **High resolution classifier**: instead of training a classifier on $224 \times 224$ images and then train an object detector on $448 \times 448$ images, in between they add a step where a new classifier is fine-tuned on $448 \times 448$ images. This way the network doesn't change at the same time the resolution and the task to perform.
-- **Convolutional with anchor boxes**: instead of predicting coordinates of the boxes, they predict offset w.r.t. anchor boxes previously defined. To do so they eliminate one pooling layer (higher resolution) and change input so that the output is going to have $13$ cells. The output in this case is a feature map (equivalent to a channel) that contains the offsets. They want an odd number so that there is only one cell in the center of the image. Also the boxes in one grid cell can predict different classes (in YOLOv1 they all had to predict the same class).
+- **Convolutional with anchor boxes**: instead of predicting coordinates of the boxes, they predict offset w.r.t. anchor boxes previously defined. To do so they eliminate one pooling layer (higher resolution) and change input so that the output is going to have $13$ cells. The output in this case is a feature map (equivalent to a channel) that contains the offsets. They want an odd number of output cells so that there is only one cell for the center of the image. Also the boxes in one grid cell can predict different classes (in YOLOv1 they all had to predict the same class).
 - **Dimension clusters**: To apply the anchor boxes we would need to hand pick their dimension. To choose them they run k-means clustering on the bounding boxes of the training set. Each cluster is a proposal anchor box, so it represents the number of boxes that will be used as prior. 
 - **Direct location prediction**: If they just applied anchor boxes and offset prediction then the originally predicted boxes can end up anywhere, leading to high instability in the predictions. Instead, they use anchor boxed but they make the prediction of the center of the boxes be relative to the grid cell dimension. This way the final boxes will not be too far from the prior ones (where the prior are the anchor boxes).
 - **Fine-grained features**: they add a passthrough layer that is concatenated with a subsequent lower resolution layer. They are of the same dimension but they are concatenated as many channels.
@@ -114,6 +115,8 @@ RMK: COCO dataset is made of mutually exclusive classes.
 ## YOLOv3 (2018)
 
 They just add some cool and good ideas from other people work.
+
+The main change is considered to be the feature pyramid network that allows the model to predict at 3 different scales.
 
 - Predicts also an objectness score for each bounding box.
 - Instead of using softmax they use **indipendent logistic classifiers**. This also solves the problem of not mutually exclusive datasets.
@@ -171,7 +174,7 @@ They added the **SPP** module to enlarge the receptive field, the **PANet path-a
 
 They do NOT use Cross-GPU Batch Normalization or other expensive devices to allow reproducibility.
 
-They also added a new method of data augmentation (Mosaic and Self-Adversarial Training) and modified some of the used method (SAM and PAN) to make the design more efficient.
+They also added a new method of data augmentation (Mosaic and Self-Adversarial Training) and modified some of the used method (Spatial Attention Module and PAN) to make the design more efficient.
 
 **Mosaic data augmentation**: it is a method that mixes 4 images. This allows detection of object outside their normal context. In addition, batch normalization calculates activation statistics from 4 different images on each layer. This significantly reduces the need for a large mini-batch size.
 
@@ -215,18 +218,19 @@ YOLOv5 incorporates **mosaic augmentation** and **CutOut** to enhance its abilit
 ## YOLOv6 (2022)
 New version that uses a different network (EfficientNet-L2) as backbone.
 
-It also introduces a new method for generating the anchor boxes, called "dense anchor boxes".
+It also introduces a new method for generating the anchor boxes, called "dense anchor boxes". Designed for efficiency since its main focus was industrial application.
 
 ## YOLOv7 (2022)
-Nothing of interest.
+It introduced techniques like Model Scaling Techniques, Re-parameterization Planning and
+Coarse-to-fine auxiliary head supervision to improve its efficiency.
 
 ## YOLOv8 (2023)
 The main improvement of YOLOv8 was introducing anchor-free detection, which simplified the architecture and improved the detection of small objects.
 
 The **backbone** is made by an enhanced version of the **CSPDarknet** which contains multiple **Cross Stage Partial (CSP)** block. Each block contains a split operation (part of the feature map is passed to convolutional layers and the other is directly concatenated to the output of the block), a dense block, a transition layer and a concatenation operation.
 
-It uses advanced activation functions like SiLU (Swish) improving gradient flow and feature expressiveness.
-It uses task-specific losses (the model provides for multiple tasks like detection, segmentation or classification) and Mosaic augmentation, Cutout and MixUp.
+It uses advanced activation functions like **SiLU (Swish)** improving gradient flow and feature expressiveness.
+It uses task-specific losses (the model provides for multiple tasks like detection, segmentation or classification) and **Mosaic augmentation**, **Cutout** and **MixUp**.
 
 The **neck** is made by a **Path Aggregation Network (PANet)**, this network is build upon *Feature pyramid networks (FPN)* with an additional bottom-up path. Specifically, it contains a bottom-up path for feature extraction, a top-down path for semantic feature propagation, and an additional bottom-up path for further feature hierarchy enhancement. At each level, features from corresponding bottom-up and top-down path are fused usually through element-wise addition or concatenation. It also introduces adaptive feature pooling to enhance multi-scale feature fusion, pooling features from all levels for each Region of Interest (RoI). This design improves the network’s ability to detect objects at various scales, essential to imrpove detection on small objects.
 
@@ -235,11 +239,11 @@ The **head** is an **anchor-free detection head**. This simplifies the model arc
 In all three components it is also used the **C2f (Cross Stage Partial with two fusion)** building block which enhances feature extraction and fusion.
 
 It uses some post-processing techniques:
-- Improved Non-Maximum Suppression (NMS): enhanced version that reduces the number of false positives and improves the precision of object detection. how??
+- Improved **Non-Maximum Suppression (NMS)**: enhanced version that reduces the number of false positives and improves the precision of object detection. how??
 
 To enhance training efficiency YOLOv8 uses:
-- mixed-precision training that combines 16-bit and 32-bit floating-point operations.
-- automated hyperparameter optimization where multiple training experiments are run with different hyperparameters settings. 
+- **mixed-precision training** that combines 16-bit and 32-bit floating-point operations.
+- **automated hyperparameter optimization** where multiple training experiments are run with different hyperparameters settings. 
 
 YOLOv8’s shift to an anchor-free detection head and the introduction of task-specific heads expanded themodel’s versatility, allowing it to handle a wider range of computer vision tasks.
 

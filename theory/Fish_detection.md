@@ -3,7 +3,7 @@
 ## Introduction
 The task of automatic fish detection can be very useful both for enviromental and economic purposes. Manual routine monitoring of fishes across multiple habitats has always been done, for example through the capture of samples (destructive method) or through underwater visual census by divers (time consuming method).
 
-To dimish the cost and time of this necessary task, many approaches to automatic fish detection have been tried in Machine Learning (ML) literature.
+To dimish the cost and time of this necessary task, many approaches to automatic fish detection have been tried in Machine Learning (ML) literature (for example Support Vector Machines).
 
 In general, automatic fish sampling involves the following three major tasks:
 - Fish detection, which discriminates fish from non-fish objects in underwater videos. Non-fish objects include coral reefs, aquatic plants, sea grass beds, sessile invertebrates such as sponges, gorgonians, ascidians, and general background.
@@ -12,20 +12,23 @@ In general, automatic fish sampling involves the following three major tasks:
 
 - Fish biomass measurement, using length to biomass regression methods.
 
+This task in general can be classified as **enviromental monitoring**.
+
 Many attempts were made to solve the first task with shallow learning architectures such as feature extraction through mathematical modelling. (Example: principal component analysis to extract key features)
-A classical pipeline would have been composed of pre-processing on images, feature extraction (shape, texture and colour) and finally classification. 
+A classical pipeline would have been composed of proposal generation, feature extraction (shape, texture and colour) and finally region classification. 
 
 However, these methods fail to correctly detect fishes in realistic and complex backgrounds. The luminosity of the image, the variation in the sea bed and the clarity of water are all factors that severely affect the accuracy of these models in real scenarios.
 
-Thus the need and use of Artificial Neural Networks (ANN) for fish detection.
+Thus the need and use of Artificial Neural Networks (ANN) for fish detection: deep neural networks can generate hierarchical features, capture different scale information in different layers, and produce robust and discriminative features for classification.
 
 ## Deep learning approaches to fish detection
-- CNN + hierarchical feature
-- CNN pre-trained on ImageNet + transfer learning (substituting the final layers and learning the parameters for those)
-- Gaussian Mixture Models (GMM) to pre-process background/foreground + estimation of the optical flow on the input image + region-based CNN (Region Proposal Network)
-- Fast R-CNN
-- Faster R-CNN
-It is important to notice that Fast R-CNN and Faster R-CNN are two-stage object detection algorithm: they first predict candidate boxes and then process each identified region to classify and refine the object boundaries.
+- **Convolutional Neural Network (CNN)** + hierarchical feature
+- CNN pre-trained on ImageNet + **transfer learning** (substituting the final layers and learning the parameters for those)
+- **Gaussian Mixture Models (GMM)** to pre-process background/foreground + estimation of the optical flow on the input image + region-based CNN (Region Proposal Network)
+- **Region-based CNN (R-CNN)**: generate region proposal using a selective search algorithm, then extracts features from these regions using a CNN and finally use SVM on the features for classification
+- **Fast R-CNN**
+- **Faster R-CNN**
+It is important to notice that R-CNN, Fast R-CNN and Faster R-CNN are two-stage object detection algorithm: they first predict candidate boxes and then process each identified region to classify and refine the object boundaries.
 
 ## YOLO-Fish (2022)
 
@@ -92,7 +95,7 @@ Terms like AP50 indicates the average precision when using the 50 IoU threshold,
 - Salman et al. "Automatic fish detection in underwater videos by a deep neural network-based hybrid motion learning system" (2020)
 - Li and Cao "Fast Accurate Fish Detection and Recognition of Underwater Images with Fast R-CNN" (2015)
 
-- "YOLO-Fish: A robust fish detection model to detect fish in realistic underwater environment" (2022)
+- Muksit et al. "YOLO-Fish: A robust fish detection model to detect fish in realistic underwater environment" (2022)
 
 - Liu et al. "Two-Stage Underwater Object Detection Network Using Swin Transformer" (2022)
 - Liu et al. "Underwater Object Detection Using TC-YOLO with Attention Mechanisms" (2023)
