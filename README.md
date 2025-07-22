@@ -1,6 +1,6 @@
 <div align="center">
     <h1>Underwater Fish Detection, Tracking, and Classification</h1>
-    <h3>Authors: Valeria De Stasio, Christian Faccio, Carlos Velàzques Fernàndez</h3>
+    <h3>Authors: Valeria De Stasio, Christian Faccio, Carlos Velázquez Fernández</h3>
     <h6>Final project of the Deep Learning course - UniTs</h6>
 </div>
 
@@ -110,23 +110,23 @@ py src/main.py --source "data/Deepfish/7398/train/output.mp4" --mode standard --
 
 ---
 
-## 5. Command-Line Arguments
+## Command-Line Arguments
 
 You can customize the pipeline's behavior using the following arguments:
 
 | Argument | Description | Default Value |
 | :--- | :--- | :--- |
 | **`--source`** | **[Required]** Path to the input video file or the camera ID (e.g., "0"). | `None` |
-| `--yolo-model` | Path to the multi-class YOLO model for detection and classification. | `models/fish.pt` |
+| `--yolo-model` | Path to the multi-class YOLO model for detection and classification. | `models/deepfish_multi_m.pt` |
 | `--output-dir` | Directory where the annotated output videos will be saved. | `outputs` |
 | `--mode` | The processing mode to use. | `standard` |
 | `--tracker-config`| Path to the tracker's `.yaml` configuration file for tuning. | `bytetrack.yaml` |
-| `--min-duration` | Minimum frames a track must exist to be considered stable. (Used in `buffered` mode).| `5` |
+| `--min-duration` | Minimum frames a track must exist to be considered stable. (Used in `buffered` mode).| `2` |
 
 
 ---
 
-## 6. References
+## References
 
 - Fisher, R. B., Chen-Burger, Y.-H., Giordano, D., Hardman, L., & Lin, F.-P. (2016). *Fish4Knowledge: Collecting and Analyzing Massive Coral Reef Fish Video Data*. Springer.
 
