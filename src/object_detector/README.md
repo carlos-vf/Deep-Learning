@@ -212,7 +212,7 @@ test: path/to/test/images
 - `single_cls=True`: Treats all detections as single class
 - `cls=0.5`: Lower classification loss weight
 - `box=7.5`: Higher box regression focus
-- `mixup=0.1`: Moderate mixup augmentation
+- `mixup=0.0`: No mixup augmentation
 
 ### Multi-Class Mode Optimizations  
 - `single_cls=False`: Full multi-class detection
