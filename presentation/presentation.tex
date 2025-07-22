@@ -11,7 +11,7 @@
     \and  
     Christian Faccio \\
     \and  
-    Carlos Velàzques Fernàndez
+    Carlos Velázquez Fernández
 }
 \title{Detection and tracking of fishes: \\ an analysis of the YOLOv8 model}
 \date{\small July 25, 2025}
@@ -157,6 +157,80 @@ names: [
 \end{frame}
 
 \section{Tracking}
+
+\begin{frame}
+    \frametitle{The Tracking Challenge: Occlusion \& ID Switches}
+    
+    \textbf{Problem:} In complex underwater scenes, fish are frequently occluded by objects or other fish.
+    \vspace{1em}
+            
+    A naive tracker will often:
+    \begin{itemize}
+        \item \textbf{Lose the track} entirely when the fish disappears.
+        \item \textbf{Create a new ID} when the fish reappears (\textcolor{deepred}{ID Switch}).
+    \end{itemize}
+    
+    \vspace{1em}
+    \textbf{Goal:} Maintain a persistent, correct ID for each fish despite occlusions.
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{The ByteTrack Algorithm}
+    
+    \begin{columns}[T]
+        \begin{column}{0.5\textwidth}
+            \textbf{Stage 1: High-Confidence Match}
+            \begin{itemize}
+                \item Uses motion prediction (Kalman Filter) to estimate the next position of existing tracks.
+                \item Matches these predictions with high-confidence detections from the YOLO model.
+            \end{itemize}
+        \end{column}
+        
+        \begin{column}{0.5\textwidth}
+            \textbf{Stage 2: Low-Confidence Match}
+            \begin{itemize}
+                \item Instead of discarding low-confidence detections, it keeps them.
+                \item It attempts to match these "doubtful" detections to the tracks that were lost in Stage 1.
+            \end{itemize}
+        \end{column}
+    \end{columns}
+    
+\end{frame}
+
+\begin{frame}
+    \frametitle{Occlusion Example}
+    
+    \begin{columns}[T,totalwidth=\textwidth] 
+        \begin{column}{0.32\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{images/occlusion_1.png}
+            \vspace{0.5em}
+            \tiny
+            \textbf{1. Before Occlusion} \\
+            The fish ID 43 is clearly visible and being tracked.
+        \end{column}
+        
+        \begin{column}{0.32\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{images/occlusion_2.png}
+            \vspace{0.5em}
+            \tiny
+            \textbf{2. During Occlusion} \\
+            Fish ID 43 is now hidden behind an object.
+        \end{column}
+        
+        \begin{column}{0.32\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{images/occlusion_3.png}
+            \vspace{0.5em}
+            \tiny
+            \textbf{3. After Occlusion} \\
+            The fish reappears. ByteTrack re-identifies it as ID 43.
+        \end{column}
+    \end{columns}
+\end{frame}
+
 
 \section{Results}
 
