@@ -1,6 +1,15 @@
-# Underwater Fish Detection, Tracking, and Classification
+<div align="center">
+    <h1>Underwater Fish Detection, Tracking, and Classification</h1>
+    <h3>Authors: Valeria De Stasio, Christian Faccio, Carlos Velàzques Fernàndez</h3>
+    <h6>Final project of the Deep Learning course - UniTs</h6>
+</div>
 
-![Video Demo](presentation/videos/7426_standard_classified.gif)
+<div align="center">
+    <img src="presentation/videos/7426_standard_classified.gif" alt="Video
+  Demo" />
+  </div>
+
+  ---
 
 This project implements a complete computer vision pipeline to process underwater video footage. The system is designed to perform three core tasks:
 
@@ -19,19 +28,25 @@ The project is organized into the following directories to ensure a clean and sc
 ```
 Deep-Learning/
 ├── data/
-│   └── ... (Contains raw datasets like F4K, Brackish, DeepFish)
+│   └── ... (Contains raw datasets like F4K and DeepFish)
 ├── models/
-│   └── fish.pt      # Multi-class YOLO model for tracking
+│   └── ... (Contains the models, both pre-trained and fine-tuned for fishes)
 ├── outputs/
 │   └── ... (Generated videos and data files are saved here)
+├── presentation/
+│   └── ... (Contains files for the presentation of the project)
 ├── src/
 │   ├── main.py              # The main entry point for the application
 │   ├── pipeline.py             
 │   ├── object_detector/
 │   │   └── train_yolo.py
+│   │   └── ...
 │   └── tracker/
 │       ├── bytetrack.yaml
 │       └── evaluate_f4k.py
+├── theory/
+│   └── papers/
+│   └── ... (Contains all the theory regarding the YOLO models and its history)
 └── README.md
 ```
 
@@ -40,20 +55,26 @@ Deep-Learning/
 * **`outputs/`**: The default location where all generated videos and data files are saved.
 * **`src/`**: Contains all the Python source code.
 
+> [!IMPORTANT]
+> The **`data/`** folder is not present in the repository due to its weight.
+> You can download the DeepFish dataset [here](https://www.kaggle.com/datasets/vencerlanz09/deep-fish-object-detection) (small version) or [here](https://alzayats.github.io/DeepFish/) (original version) and the Fish4Knowledge dataset [here](https://homepages.inf.ed.ac.uk/rbf/Fish4Knowledge/resources.htm).
+> Then save them in the **`data/`** folder and run the converter script in **`src/object_detector`** to have the correct format.
+
 ---
 
-## 3. Model Preparation
+## Model Preparation
 
 The pipeline relies on a single, multi-class YOLOv8 model that must be trained beforehand.
 
-**Training the Model (`fish.pt`)**: This model is trained to detect and classify multiple fish species simultaneously. It should be trained using the `src/object_detector/train_yolo.py` script on a dataset that has bounding boxes labeled with their specific species (e.g., the F4K dataset after processing).
+**Training the Model (`deepfish_multi_m.pt`)**: This model is trained to detect and classify multiple fish species simultaneously in the DeepFish dataset. It should be trained using the `src/object_detector/train_yolo.py` script on a dataset that has bounding boxes labeled with their specific species. The relative model for F4K can be obtain fine-tuning the YOLOv8 model on the F4K dataset.
 
 Ensure your final, trained `best.pt` model is placed in the `models/` directory.
 
+You can run the `train_yolo.py` script using the commands in [this](src/object_detector/README.md) file.
 
 ---
 
-## 4. Running the Pipeline
+## Running the Pipeline
 
 The main entry point for all operations is `src/main.py`. You must run all commands from the project's root directory. The pipeline can process both **pre-recorded video files** and **live camera footage**.
 
