@@ -1,5 +1,5 @@
-\beamer@sectionintoc {1}{Theory}{4}{0}{1}
-\beamer@sectionintoc {2}{Models}{6}{0}{2}
-\beamer@sectionintoc {3}{Tracking}{7}{0}{3}
-\beamer@sectionintoc {4}{Results}{8}{0}{4}
-\beamer@sectionintoc {5}{Conclusions}{9}{0}{5}
+\beamer@sectionintoc {1}{Theory}{3}{0}{1}
+\beamer@sectionintoc {2}{Detection}{9}{0}{2}
+\beamer@sectionintoc {3}{Tracking}{15}{0}{3}
+\beamer@sectionintoc {4}{Results}{16}{0}{4}
+\beamer@sectionintoc {5}{Conclusions}{17}{0}{5}
