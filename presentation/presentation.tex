@@ -89,6 +89,31 @@ subsubsectionstyle=show/shaded/hide]
 
 \begin{frame}
 \frametitle{Datasets}
+\begin{columns}
+\begin{column}{0.5\textwidth}
+	\centering
+	\textbf{DeepFish  --> }\\
+\end{column}
+
+\begin{column}{0.5\textwidth}
+	\centering
+	\includegraphics[width=0.95\textwidth]{images/deepfish.png}
+\end{column}
+\end{columns}
+
+\vspace{1cm}
+
+\begin{columns}
+\begin{column}{0.5\textwidth}
+	\centering
+	\includegraphics[width=0.95\textwidth]{images/f4k.png}	
+\end{column}
+
+\begin{column}{0.5\textwidth}
+	\centering
+	\textbf{<--  Fish4Knowledge}
+\end{column}
+\end{columns}
 \end{frame}
 
 \begin{frame}[fragile]
@@ -142,14 +167,154 @@ names: [
 \end{columns}
 \end{frame}
 
-%probably multiple frames for this
-
 \begin{frame}
 \frametitle{YOLOv8 models}
+\begin{center}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|l|c|c|c|c|c|c|}
+\hline
+\textbf{Model} & \textbf{size} & \textbf{mAP$^{\text{val}}$} & \textbf{Speed} & \textbf{Speed} & \textbf{params} & \textbf{FLOPs} \\
+ & \textbf{(pixels)} & \textbf{50-95} & \textbf{CPU ONNX} & \textbf{A100 TensorRT} & \textbf{(M)} & \textbf{(B)} \\
+ &  &  & \textbf{(ms)} & \textbf{(ms)} &  &  \\
+\hline
+YOLOv8n & 640 & 37.3 & 80.4 & 0.99 & 3.2 & 8.7 \\
+\hline
+YOLOv8s & 640 & 44.9 & 128.4 & 1.20 & 11.2 & 28.6 \\
+\hline
+YOLOv8m & 640 & 50.2 & 234.7 & 1.83 & 25.9 & 78.9 \\
+\hline
+YOLOv8l & 640 & 52.9 & 375.2 & 2.39 & 43.7 & 165.2 \\
+\hline
+YOLOv8x & 640 & 53.9 & 479.1 & 3.53 & 68.2 & 257.8 \\
+\hline
+\end{tabular}%
+}
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{AdamW}
+\centering
+\includegraphics[width=\textwidth]{images/adamw_algo.png}
+\footnote{\cite{loshchilov2019decoupledweightdecayregularization}}
+\end{frame}
+
+\begin{frame}
+\centering
+\includegraphics[width=0.8\textwidth]{images/adamw_com.png}
+\footnote{\cite{loshchilov2019decoupledweightdecayregularization}}
+\end{frame}
+
+\begin{frame}
+\frametitle{Loss Function}
+$$
+loss = L_{cls} + L_{box} + L_{DFL}
+$$
+\begin{itemize}
+	\item \textbf{Classification loss:} crucial for predicting the correct class of objects.
+	\item \textbf{Box loss:} ensures that the bounding boxes around objects are accurate.
+	\item \textbf{DFL:} Distributed Focal Loss, boosts performance by distributing the loss function across different object scales and classes.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{General Parameters}
+\begin{center}
+\small
+\begin{tabular}{|l|c|p{5.5cm}|}
+\hline
+\textbf{Parameter} & \textbf{Value} & \textbf{Description} \\
+\hline
+Epochs & 50-100 & Number of training iterations \\
+\hline
+Batch Size & 16 & Images processed simultaneously \\
+\hline
+Image Size & 640 & Input image resolution (pixels) \\
+\hline
+Optimizer & AdamW & Adaptive moment estimation with weight decay \\
+\hline
+Learning Rate & 0.001 & Initial learning rate with cosine scheduling \\
+\hline
+Weight Decay & 0.0005 & L2 regularization strength \\
+\hline
+patience & 10 & Epochs to wait before early stopping \\
+\hline
+Warmup epochs & 3 & Gradual learning rate increase at start \\
+\hline
+cos\_lr & True & Cosine learning rate scheduler \\
+\hline
+close\_mosaic & 10 & Disable mosaic augmentation in last N epochs \\
+\hline
+\end{tabular}
+\end{center}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Specific Parameters (single-class vs multi-class)}
+\begin{center}
+\small
+\begin{tabular}{|l|c|c|p{4cm}|}
+\hline
+	\textbf{Parameter} & \textbf{Single-class} & \textbf{Multi-class} & \textbf{Description} \\
+\hline
+cls & 0.5 & 1.0 & Weight affecting importance of correct class prediction\\
+\hline
+box & 7.5 & 7.5 & Weight influencing emphasis on accurately predicting bounding box coordinates\\
+\hline
+dfl & 1.5 & 1.5 & Weight used for fine-grained classification\\
+\hline
+mixup & 0.0 & 0.15 & Blends two images and their labels, creating composite image\\
+\hline
+copy\_paste & 0.0 & 0.3 & Copies and pastes objects across images to increase object instances\\
+\hline
+\end{tabular}
+\end{center}
 \end{frame}
 
 \begin{frame}
 \frametitle{Training}
+\centering
+\includegraphics[width=0.7\textwidth]{images/training1.png}
+\vspace{0.5cm}
+\includegraphics[width=0.7\textwidth]{images/training2.png}
+\end{frame}
+
+\begin{frame}
+\centering
+\textbf{Mixup feature}
+\begin{columns}
+\begin{column}{0.5\textwidth}
+	\centering
+	\includegraphics[width=0.8\textwidth]{images/mixup_1.jpg}
+\end{column}
+
+\begin{column}{0.5\textwidth}
+	\centering
+	\includegraphics[width=0.8\textwidth]{images/mixup_2.jpg}
+\end{column}
+\end{columns}
+
+\vspace{0.3cm}
+
+\begin{columns}
+\begin{column}{0.5\textwidth}
+	\centering
+	\textbf{Mosaic feature}
+	\includegraphics[width=0.8\textwidth]{images/mosaic.jpg}	
+\end{column}
+
+\begin{column}{0.5\textwidth}
+	\centering
+	\textbf{Cutout feature}
+	\includegraphics[width=0.8\textwidth]{images/cutout.jpg}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{NMS}
 \end{frame}
 
 \begin{frame}
@@ -235,5 +400,8 @@ names: [
 \section{Results}
 
 \section{Conclusions}
+
+\bibliography{ref}
+\bibliographystyle{plain}
 
 \end{document}

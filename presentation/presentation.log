@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.18.0 (TeX Live 2024)  (format=lualatex 2024.11.6)  22 JUL 2025 11:18
+This is LuaHBTeX, Version 1.18.0 (TeX Live 2024)  (format=lualatex 2024.11.6)  23 JUL 2025 18:32
  restricted system commands enabled.
 **presentation.tex
 (./presentation.tex
@@ -1181,7 +1181,7 @@ Dictionary: translator-theorem-dictionary, Language: English
 )
 \c@lstlisting=\count396
  (./presentation.nav)
-<images/logo.jpg, id=84, 903.375pt x 304.13625pt>
+<images/logo.jpg, id=104, 903.375pt x 304.13625pt>
 File: images/logo.jpg Graphic file (type jpg)
 <use images/logo.jpg>
 Package luatex.def Info: images/logo.jpg  used on input line 58.
@@ -1206,9 +1206,37 @@ Package luatex.def Info: images/logo.jpg  used on input line 58.
 ] (./presentation.toc) [9
 
 ]
-[10
+LaTeX Font Info:    Trying to load font information for U+msa on input line 117
+.
 
-]
+(/usr/local/texlive/2024/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 117
+.
+
+(/usr/local/texlive/2024/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+LaTeX Font Info:    Trying to load font information for U+lasy on input line 11
+7.
+
+(/usr/local/texlive/2024/texmf-dist/tex/latex/base/ulasy.fd
+File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
+)
+<images/deepfish.png, id=923, 797.98125pt x 448.67625pt>
+File: images/deepfish.png Graphic file (type png)
+<use images/deepfish.png>
+Package luatex.def Info: images/deepfish.png  used on input line 117.
+(luatex.def)             Requested size: 145.9622pt x 82.06587pt.
+<images/f4k.png, id=924, 659.46375pt x 367.3725pt>
+File: images/f4k.png Graphic file (type png)
+<use images/f4k.png>
+Package luatex.def Info: images/f4k.png  used on input line 117.
+(luatex.def)             Requested size: 145.9622pt x 81.30988pt.
+ [10
+
+<./images/deepfish.png><./images/f4k.png>]
 \openout4 = presentation.vrb
  (./presentation.vrb
 (/usr/local/texlive/2024/texmf-dist/tex/latex/listings/lstlang1.sty
@@ -1219,42 +1247,139 @@ LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 4
 
 (/usr/local/texlive/2024/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)
-LaTeX Font Info:    Trying to load font information for U+msa on input line 12.
-
-
-(/usr/local/texlive/2024/texmf-dist/tex/latex/amsfonts/umsa.fd
-File: umsa.fd 2013/01/14 v3.01 AMS symbols A
-)
-LaTeX Font Info:    Trying to load font information for U+msb on input line 12.
-
-
-(/usr/local/texlive/2024/texmf-dist/tex/latex/amsfonts/umsb.fd
-File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
-LaTeX Font Info:    Trying to load font information for U+lasy on input line 12
-.
-
-(/usr/local/texlive/2024/texmf-dist/tex/latex/base/ulasy.fd
-File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 ))
-Overfull \vbox (11.65392pt too high) detected at line 143
+Overfull \vbox (11.65392pt too high) detected at line 168
  []
 
 [11
 
 ] [12
 
-] [13
+]
+<images/adamw_algo.png, id=1216, 811.03pt x 390.45876pt>
+File: images/adamw_algo.png Graphic file (type png)
+<use images/adamw_algo.png>
+Package luatex.def Info: images/adamw_algo.png  used on input line 200.
+(luatex.def)             Requested size: 307.28987pt x 147.94093pt.
+ [13
 
-] [14
+<./images/adamw_algo.png>]
+<images/adamw_com.png, id=1308, 651.43375pt x 502.87875pt>
+File: images/adamw_com.png Graphic file (type png)
+<use images/adamw_com.png>
+Package luatex.def Info: images/adamw_com.png  used on input line 206.
+(luatex.def)             Requested size: 245.83282pt x 189.76842pt.
+ [14
 
-] (./presentation.toc) [15
-
-] (./presentation.toc) [16
+<./images/adamw_com.png>] [15
 
 ]
-(./presentation.toc) [17
+Underfull \hbox (badness 2269) in paragraph at lines 250--250
+[]\T1/lmr/m/n/10 Ini-tial learn-ing rate with co-sine
+ []
+
+[16
+
+]
+Underfull \hbox (badness 2837) in paragraph at lines 273--273
+[]\T1/lmr/m/n/10 Weight af-fect-ing im-por-
+ []
+
+
+Underfull \hbox (badness 5893) in paragraph at lines 273--273
+[]\T1/lmr/m/n/10 Weight in-flu-enc-ing em-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 273--273
+[]\T1/lmr/m/n/10 Weight used for fine-
+ []
+
+
+Underfull \hbox (badness 1874) in paragraph at lines 273--273
+[]\T1/lmr/m/n/10 Blends two im-ages and
+ []
+
+
+Overfull \hbox (19.26828pt too wide) in paragraph at lines 273--273
+ [] 
+ []
+
+[17
+
+]
+<images/training1.png, id=1657, 846.16125pt x 298.11375pt>
+File: images/training1.png Graphic file (type png)
+<use images/training1.png>
+Package luatex.def Info: images/training1.png  used on input line 281.
+(luatex.def)             Requested size: 215.10196pt x 75.77917pt.
+<images/training2.png, id=1658, 784.9325pt x 447.6725pt>
+File: images/training2.png Graphic file (type png)
+<use images/training2.png>
+Package luatex.def Info: images/training2.png  used on input line 281.
+(luatex.def)             Requested size: 215.10196pt x 122.67654pt.
+ [18
+
+<./images/training1.png><./images/training2.png>]
+<images/mixup_1.jpg, id=1747, 1927.2pt x 1084.05pt>
+File: images/mixup_1.jpg Graphic file (type jpg)
+<use images/mixup_1.jpg>
+Package luatex.def Info: images/mixup_1.jpg  used on input line 314.
+(luatex.def)             Requested size: 122.9164pt x 69.12587pt.
+<images/mixup_2.jpg, id=1748, 1927.2pt x 1084.05pt>
+File: images/mixup_2.jpg Graphic file (type jpg)
+<use images/mixup_2.jpg>
+Package luatex.def Info: images/mixup_2.jpg  used on input line 314.
+(luatex.def)             Requested size: 122.9164pt x 69.12587pt.
+<images/mosaic.jpg, id=1749, 1927.2pt x 1927.2pt>
+File: images/mosaic.jpg Graphic file (type jpg)
+<use images/mosaic.jpg>
+Package luatex.def Info: images/mosaic.jpg  used on input line 314.
+(luatex.def)             Requested size: 122.9164pt x 122.89046pt.
+<images/cutout.jpg, id=1750, 1927.2pt x 1084.05pt>
+File: images/cutout.jpg Graphic file (type jpg)
+<use images/cutout.jpg>
+Package luatex.def Info: images/cutout.jpg  used on input line 314.
+(luatex.def)             Requested size: 122.9164pt x 69.12587pt.
+ [19
+
+<./images/mixup_1.jpg><./images/mixup_2.jpg><./images/mosaic.jpg><./images/cutou
+t.jpg>] [20
+
+]
+[21
+
+] (./presentation.toc) [22
+
+] [23
+
+] [24
+
+]
+<images/occlusion_1.png, id=2270, 403.5075pt x 301.8778pt>
+File: images/occlusion_1.png Graphic file (type png)
+<use images/occlusion_1.png>
+Package luatex.def Info: images/occlusion_1.png  used on input line 397.
+(luatex.def)             Requested size: 98.335pt x 73.56686pt.
+<images/occlusion_2.png, id=2271, 389.95688pt x 288.3272pt>
+File: images/occlusion_2.png Graphic file (type png)
+<use images/occlusion_2.png>
+Package luatex.def Info: images/occlusion_2.png  used on input line 397.
+(luatex.def)             Requested size: 98.335pt x 72.70634pt.
+<images/occlusion_3.png, id=2272, 381.67593pt x 283.0575pt>
+File: images/occlusion_3.png Graphic file (type png)
+<use images/occlusion_3.png>
+Package luatex.def Info: images/occlusion_3.png  used on input line 397.
+(luatex.def)             Requested size: 98.335pt x 72.92374pt.
+ [25
+
+<./images/occlusion_1.png><./images/occlusion_2.png><./images/occlusion_3.png>]
+ (./presentation.toc) [26
+
+]
+(./presentation.toc) [27
+
+] (./presentation.bbl) [28
 
 ]
 \tf@nav=\write6
@@ -1276,27 +1401,35 @@ Package rerunfilecheck Info: File `presentation.out' has not changed.
 )
 
 Here is how much of LuaTeX's memory you used:
- 26414 strings out of 476447
- 125007,1977958 words of node,token memory allocated
- 9128 words of node memory still in use:
-   173 hlist, 14 vlist, 4 rule, 14 disc, 7 local_par, 202 glue, 29 kern, 15 pena
-lty, 102 glyph, 658 attribute, 66 glue_spec, 658 attribute_list, 4 write, 327 pd
-f_literal, 25 pdf_start_link, 25 pdf_end_link, 25 pdf_action, 106 pdf_colorstack
+ 26724 strings out of 476447
+ 156267,1977958 words of node,token memory allocated
+ 11800 words of node memory still in use:
+   234 hlist, 14 vlist, 4 rule, 14 disc, 7 local_par, 263 glue, 39 kern, 15 pena
+lty, 102 glyph, 899 attribute, 67 glue_spec, 899 attribute_list, 3 write, 467 pd
+f_literal, 35 pdf_start_link, 35 pdf_end_link, 35 pdf_action, 126 pdf_colorstack
  nodes
-   avail lists: 2:2734,3:1112,4:1757,5:1916,6:180,7:5776,8:1,9:4745,10:5,11:67
- 47600 multiletter control sequences out of 65536+600000
- 49 fonts using 2963151 bytes
+   avail lists: 2:3216,3:1563,4:1797,5:1940,6:190,7:5898,8:19,9:4887,10:10,11:20
+2
+ 47843 multiletter control sequences out of 65536+600000
+ 87 fonts using 5455903 bytes
  101i,20n,101p,410b,1257s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}</usr/local/tex
-live/2024/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/local/texlive/2024/t
-exmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/2024/texmf-dist/fo
-nts/type1/public/lm/lmr12.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/pu
-blic/lm/lmr6.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmtt8
-.pfb>
-Output written on presentation.pdf (17 pages, 294630 bytes).
+live/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texliv
+e/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/
+2024/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/local/texlive/2024/texmf-
+dist/fonts/type1/public/lm/lmbx6.pfb></usr/local/texlive/2024/texmf-dist/fonts/t
+ype1/public/lm/lmbx8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/
+lm/lmr10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr12.pfb
+></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr6.pfb></usr/local/
+texlive/2024/texmf-dist/fonts/type1/public/lm/lmr8.pfb></usr/local/texlive/2024/
+texmf-dist/fonts/type1/public/lm/lmr9.pfb></usr/local/texlive/2024/texmf-dist/fo
+nts/type1/public/lm/lmri10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/p
+ublic/lm/lmri8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmt
+t8.pfb>
+Output written on presentation.pdf (28 pages, 7032285 bytes).
 
-PDF statistics: 1276 PDF objects out of 1440 (max. 8388607)
- 850 compressed objects within 9 object streams
- 40 named destinations out of 1000 (max. 131072)
+PDF statistics: 2618 PDF objects out of 2984 (max. 8388607)
+ 1653 compressed objects within 17 object streams
+ 63 named destinations out of 1000 (max. 131072)
  111 words of extra memory for PDF output out of 10000 (max. 100000000)
 
