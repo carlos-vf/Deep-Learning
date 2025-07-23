@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.18.0 (TeX Live 2024)  (format=lualatex 2024.11.6)  23 JUL 2025 18:32
+This is LuaHBTeX, Version 1.18.0 (TeX Live 2024)  (format=lualatex 2024.11.6)  23 JUL 2025 21:26
  restricted system commands enabled.
 **presentation.tex
 (./presentation.tex
@@ -1181,7 +1181,7 @@ Dictionary: translator-theorem-dictionary, Language: English
 )
 \c@lstlisting=\count396
  (./presentation.nav)
-<images/logo.jpg, id=104, 903.375pt x 304.13625pt>
+<images/logo.jpg, id=106, 903.375pt x 304.13625pt>
 File: images/logo.jpg Graphic file (type jpg)
 <use images/logo.jpg>
 Package luatex.def Info: images/logo.jpg  used on input line 58.
@@ -1224,12 +1224,12 @@ LaTeX Font Info:    Trying to load font information for U+lasy on input line 11
 (/usr/local/texlive/2024/texmf-dist/tex/latex/base/ulasy.fd
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 )
-<images/deepfish.png, id=923, 797.98125pt x 448.67625pt>
+<images/deepfish.png, id=944, 797.98125pt x 448.67625pt>
 File: images/deepfish.png Graphic file (type png)
 <use images/deepfish.png>
 Package luatex.def Info: images/deepfish.png  used on input line 117.
 (luatex.def)             Requested size: 145.9622pt x 82.06587pt.
-<images/f4k.png, id=924, 659.46375pt x 367.3725pt>
+<images/f4k.png, id=945, 659.46375pt x 367.3725pt>
 File: images/f4k.png Graphic file (type png)
 <use images/f4k.png>
 Package luatex.def Info: images/f4k.png  used on input line 117.
@@ -1256,7 +1256,7 @@ Overfull \vbox (11.65392pt too high) detected at line 168
 ] [12
 
 ]
-<images/adamw_algo.png, id=1216, 811.03pt x 390.45876pt>
+<images/adamw_algo.png, id=1245, 811.03pt x 390.45876pt>
 File: images/adamw_algo.png Graphic file (type png)
 <use images/adamw_algo.png>
 Package luatex.def Info: images/adamw_algo.png  used on input line 200.
@@ -1264,7 +1264,7 @@ Package luatex.def Info: images/adamw_algo.png  used on input line 200.
  [13
 
 <./images/adamw_algo.png>]
-<images/adamw_com.png, id=1308, 651.43375pt x 502.87875pt>
+<images/adamw_com.png, id=1338, 651.43375pt x 502.87875pt>
 File: images/adamw_com.png Graphic file (type png)
 <use images/adamw_com.png>
 Package luatex.def Info: images/adamw_com.png  used on input line 206.
@@ -1308,12 +1308,12 @@ Overfull \hbox (19.26828pt too wide) in paragraph at lines 273--273
 [17
 
 ]
-<images/training1.png, id=1657, 846.16125pt x 298.11375pt>
+<images/training1.png, id=1695, 846.16125pt x 298.11375pt>
 File: images/training1.png Graphic file (type png)
 <use images/training1.png>
 Package luatex.def Info: images/training1.png  used on input line 281.
 (luatex.def)             Requested size: 215.10196pt x 75.77917pt.
-<images/training2.png, id=1658, 784.9325pt x 447.6725pt>
+<images/training2.png, id=1696, 784.9325pt x 447.6725pt>
 File: images/training2.png Graphic file (type png)
 <use images/training2.png>
 Package luatex.def Info: images/training2.png  used on input line 281.
@@ -1321,22 +1321,22 @@ Package luatex.def Info: images/training2.png  used on input line 281.
  [18
 
 <./images/training1.png><./images/training2.png>]
-<images/mixup_1.jpg, id=1747, 1927.2pt x 1084.05pt>
+<images/mixup_1.jpg, id=1787, 1927.2pt x 1084.05pt>
 File: images/mixup_1.jpg Graphic file (type jpg)
 <use images/mixup_1.jpg>
 Package luatex.def Info: images/mixup_1.jpg  used on input line 314.
 (luatex.def)             Requested size: 122.9164pt x 69.12587pt.
-<images/mixup_2.jpg, id=1748, 1927.2pt x 1084.05pt>
+<images/mixup_2.jpg, id=1788, 1927.2pt x 1084.05pt>
 File: images/mixup_2.jpg Graphic file (type jpg)
 <use images/mixup_2.jpg>
 Package luatex.def Info: images/mixup_2.jpg  used on input line 314.
 (luatex.def)             Requested size: 122.9164pt x 69.12587pt.
-<images/mosaic.jpg, id=1749, 1927.2pt x 1927.2pt>
+<images/mosaic.jpg, id=1789, 1927.2pt x 1927.2pt>
 File: images/mosaic.jpg Graphic file (type jpg)
 <use images/mosaic.jpg>
 Package luatex.def Info: images/mosaic.jpg  used on input line 314.
 (luatex.def)             Requested size: 122.9164pt x 122.89046pt.
-<images/cutout.jpg, id=1750, 1927.2pt x 1084.05pt>
+<images/cutout.jpg, id=1790, 1927.2pt x 1084.05pt>
 File: images/cutout.jpg Graphic file (type jpg)
 <use images/cutout.jpg>
 Package luatex.def Info: images/cutout.jpg  used on input line 314.
@@ -1347,39 +1347,69 @@ Package luatex.def Info: images/cutout.jpg  used on input line 314.
 t.jpg>] [20
 
 ]
+<images/9894_Amniataba_caudivittatus_f000002.jpg, id=1966, 1927.2pt x 1084.05pt
+>
+File: images/9894_Amniataba_caudivittatus_f000002.jpg Graphic file (type jpg)
+<use images/9894_Amniataba_caudivittatus_f000002.jpg>
+Package luatex.def Info: images/9894_Amniataba_caudivittatus_f000002.jpg  used 
+on input line 355.
+(luatex.def)             Requested size: 153.64493pt x 86.41148pt.
+<images/9866_acanthopagrus_and_caranx_f000041.jpg, id=1967, 1927.2pt x 1084.05p
+t>
+File: images/9866_acanthopagrus_and_caranx_f000041.jpg Graphic file (type jpg)
+<use images/9866_acanthopagrus_and_caranx_f000041.jpg>
+Package luatex.def Info: images/9866_acanthopagrus_and_caranx_f000041.jpg  used
+ on input line 355.
+(luatex.def)             Requested size: 153.64493pt x 86.41148pt.
+<images/7268_F1_f000242.jpg, id=1968, 1927.2pt x 1084.05pt>
+File: images/7268_F1_f000242.jpg Graphic file (type jpg)
+<use images/7268_F1_f000242.jpg>
+Package luatex.def Info: images/7268_F1_f000242.jpg  used on input line 355.
+(luatex.def)             Requested size: 153.64493pt x 86.41148pt.
+<images/9908_Acanthopagrus_palmaris_f000010.jpg, id=1969, 1927.2pt x 1084.05pt>
+
+File: images/9908_Acanthopagrus_palmaris_f000010.jpg Graphic file (type jpg)
+<use images/9908_Acanthopagrus_palmaris_f000010.jpg>
+Package luatex.def Info: images/9908_Acanthopagrus_palmaris_f000010.jpg  used o
+n input line 355.
+(luatex.def)             Requested size: 153.64493pt x 86.41148pt.
+
 [21
 
-] (./presentation.toc) [22
+<./images/9894_Amniataba_caudivittatus_f000002.jpg><./images/9866_acanthopagrus_
+and_caranx_f000041.jpg><./images/7268_F1_f000242.jpg><./images/9908_Acanthopagru
+s_palmaris_f000010.jpg>] (./presentation.toc) [22
 
 ] [23
 
 ] [24
 
 ]
-<images/occlusion_1.png, id=2270, 403.5075pt x 301.8778pt>
+<images/occlusion_1.png, id=2326, 403.5075pt x 301.8778pt>
 File: images/occlusion_1.png Graphic file (type png)
 <use images/occlusion_1.png>
-Package luatex.def Info: images/occlusion_1.png  used on input line 397.
+Package luatex.def Info: images/occlusion_1.png  used on input line 429.
 (luatex.def)             Requested size: 98.335pt x 73.56686pt.
-<images/occlusion_2.png, id=2271, 389.95688pt x 288.3272pt>
+<images/occlusion_2.png, id=2327, 389.95688pt x 288.3272pt>
 File: images/occlusion_2.png Graphic file (type png)
 <use images/occlusion_2.png>
-Package luatex.def Info: images/occlusion_2.png  used on input line 397.
+Package luatex.def Info: images/occlusion_2.png  used on input line 429.
 (luatex.def)             Requested size: 98.335pt x 72.70634pt.
-<images/occlusion_3.png, id=2272, 381.67593pt x 283.0575pt>
+<images/occlusion_3.png, id=2328, 381.67593pt x 283.0575pt>
 File: images/occlusion_3.png Graphic file (type png)
 <use images/occlusion_3.png>
-Package luatex.def Info: images/occlusion_3.png  used on input line 397.
+Package luatex.def Info: images/occlusion_3.png  used on input line 429.
 (luatex.def)             Requested size: 98.335pt x 72.92374pt.
  [25
 
 <./images/occlusion_1.png><./images/occlusion_2.png><./images/occlusion_3.png>]
- (./presentation.toc) [26
 
-]
-(./presentation.toc) [27
+(./presentation.toc) [26
 
-] (./presentation.bbl) [28
+] (./presentation.toc) [27
+
+] (./presentation.bbl)
+[28
 
 ]
 \tf@nav=\write6
@@ -1401,18 +1431,20 @@ Package rerunfilecheck Info: File `presentation.out' has not changed.
 )
 
 Here is how much of LuaTeX's memory you used:
- 26724 strings out of 476447
- 156267,1977958 words of node,token memory allocated
- 11800 words of node memory still in use:
-   234 hlist, 14 vlist, 4 rule, 14 disc, 7 local_par, 263 glue, 39 kern, 15 pena
-lty, 102 glyph, 899 attribute, 67 glue_spec, 899 attribute_list, 3 write, 467 pd
-f_literal, 35 pdf_start_link, 35 pdf_end_link, 35 pdf_action, 126 pdf_colorstack
+ 26783 strings out of 476447
+ 156268,1977958 words of node,token memory allocated
+ 12065 words of node memory still in use:
+   240 hlist, 14 vlist, 4 rule, 14 disc, 7 local_par, 269 glue, 40 kern, 15 pena
+lty, 102 glyph, 923 attribute, 67 glue_spec, 923 attribute_list, 3 write, 481 pd
+f_literal, 36 pdf_start_link, 36 pdf_end_link, 36 pdf_action, 128 pdf_colorstack
  nodes
-   avail lists: 2:3216,3:1563,4:1797,5:1940,6:190,7:5898,8:19,9:4887,10:10,11:20
+   avail lists: 2:3264,3:1608,4:1801,5:1943,6:191,7:5910,8:19,9:4901,10:15,11:20
 2
- 47843 multiletter control sequences out of 65536+600000
+ 47889 multiletter control sequences out of 65536+600000
  87 fonts using 5455903 bytes
  101i,20n,101p,410b,1257s stack positions out of 10000i,1000n,20000p,200000b,200000s
+
+warning  (pdf backend): unreferenced destination with name 'Navigation29'
 {/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}</usr/local/tex
 live/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texliv
 e/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/
@@ -1426,10 +1458,10 @@ texmf-dist/fonts/type1/public/lm/lmr9.pfb></usr/local/texlive/2024/texmf-dist/fo
 nts/type1/public/lm/lmri10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/p
 ublic/lm/lmri8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmt
 t8.pfb>
-Output written on presentation.pdf (28 pages, 7032285 bytes).
+Output written on presentation.pdf (28 pages, 8474245 bytes).
 
-PDF statistics: 2618 PDF objects out of 2984 (max. 8388607)
- 1653 compressed objects within 17 object streams
- 63 named destinations out of 1000 (max. 131072)
+PDF statistics: 2680 PDF objects out of 2984 (max. 8388607)
+ 1682 compressed objects within 17 object streams
+ 64 named destinations out of 1000 (max. 131072)
  111 words of extra memory for PDF output out of 10000 (max. 100000000)
 

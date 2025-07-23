@@ -315,10 +315,43 @@ copy\_paste & 0.0 & 0.3 & Copies and pastes objects across images to increase ob
 
 \begin{frame}
 \frametitle{NMS}
+The \textbf{Non-Maximum Suppression} is a technique that cleans up the output of a detection model by filtering out redundant and overlapping bounding boxes to ensure that each object is identified only once. It operates by iterating through the predicted bounding boxes and making decisions based on two key metrics: \textbf{confidence scores} and the \textbf{IoU} threshold:
+\begin{enumerate}
+	\item Sort by confidence 
+	\item Select the best box
+	\item Repeat
+\end{enumerate}
+(IoU means Intersection over Union and the higher it is for a box, the more it overlaps the others)
 \end{frame}
 
 \begin{frame}
 \frametitle{Inference}
+\centering
+\begin{columns}
+\begin{column}{0.5\textwidth}
+	\centering
+	\includegraphics[width=\textwidth]{images/9894_Amniataba_caudivittatus_f000002.jpg}
+\end{column}
+
+\begin{column}{0.5\textwidth}
+	\centering
+	\includegraphics[width=\textwidth]{images/9866_acanthopagrus_and_caranx_f000041.jpg}
+\end{column}
+\end{columns}
+
+\begin{columns}
+\begin{column}{0.5\textwidth}
+	\centering
+	\includegraphics[width=\textwidth]{images/7268_F1_f000242.jpg}	
+\end{column}
+
+\begin{column}{0.5\textwidth}
+	\centering
+	\includegraphics[width=\textwidth]{images/9908_Acanthopagrus_palmaris_f000010.jpg}
+\end{column}
+\end{columns}
+
+
 \end{frame}
 
 \section{Tracking}
@@ -338,7 +371,6 @@ copy\_paste & 0.0 & 0.3 & Copies and pastes objects across images to increase ob
     \vspace{1em}
     \textbf{Goal:} Maintain a persistent, correct ID for each fish despite occlusions.
 \end{frame}
-
 
 \begin{frame}
     \frametitle{The ByteTrack Algorithm}
