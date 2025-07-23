@@ -27,9 +27,12 @@ In general, a CNN is a network made of **convolutional layers**, each of which i
 It often includes also pooling mechanisms (methods for scaling down the representation size) to induce partial invariance to translation (which means that if I shift the input of the layer the pooling method may give the same output). This is useful to exploit the property of the output being invariant with respect to translation in image classification and other similar tasks.
 
 The weights of the convolution operation (it is actually a cross-correlation instead of a convolution) form the **convolution kernel** or **filter**.
-Each convolutional layer is characterized by its **kernel size** (number of inputs of which to compute the convolution), its **stride** (the frequency with which we compute the convolution)  and **dilation rate** (the frequency with which we take the inputs).
+
+Each convolutional layer is characterized by its **kernel size** (number of inputs of which to compute the convolution), its **stride** (the frequency with which we compute the convolution)  and **dilation rate** (the frequency with which we take the inputs). It can also have some **padding** with specific values (usually 0 or 1).
 
 Example: a stride of 2 halve the subsequent layer, a large kernel size requires more weights and a large dilation takes in the convolution input nodes that are further from each other.
+
+The convolutional layers accept inputs of arbitrary sizes: they use sliding filters, and their outputs have roughly the same aspect ratio as the inputs. These outputs are known as **feature maps**.
 
 ## YOLOv1 (2015)
 
@@ -247,9 +250,9 @@ To enhance training efficiency YOLOv8 uses:
 
 YOLOv8’s shift to an anchor-free detection head and the introduction of task-specific heads expanded themodel’s versatility, allowing it to handle a wider range of computer vision tasks.
 
-### YOLOv8s (small)
+### YOLOv8m (medium)
 
-On COCO dataset the YOLOv8s obtains 44.9% Average Precision and 28.6 billion Floating-point Operations per Second (FLOPS).
+On COCO dataset the YOLOv8s obtains 50.2%% Average Precision and 78.9 billion Floating-point Operations per Second (FLOPS).
 
 (Fun fact! Yolov10 was introduced in 2024 and makes use of NMS-free training, making it particularly efficient for edge devices with limited resources)
 
@@ -262,6 +265,7 @@ Reasons:
 - Continuous Improvement over the previous versions
 - Community Support, strong community backing and regular updates
 
+Specifically, we trained YOLOv8 medium version. This was the optimal choice as it balances the inference time (slower in bigger models) and the accuracy (lower in smaller models), providing the best option for real time detection.
 
 # References
 - Ren et al. "Faster r-cnn: towards realtime object detection with region proposal networks." (2015)

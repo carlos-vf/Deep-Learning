@@ -74,10 +74,12 @@ Datasets used in literature:
 
 ## Metrics for model performance evaluation
 For the task of species *classification* we can use:
-- Precision, which is the ratio of all correct predictions of a class and all predictions of that class.
-- Recall, which is the ratio of all correct predictions of a class and all the actual instances of that class.
-- Average Precision (AP), which is the area under a precision vs. recall curve for a set of predictions (where the curve is obtained by varying a threshold).
-- Mean Average Precision (mAP), which is the average of the AP over all classes.
+- **Precision**, which is the ratio of all correct predictions of a class and all predictions of that class.
+$$P = \frac{TP}{TP+FP}$$
+- **Recall**, which is the ratio of all correct predictions of a class and all the actual instances of that class.
+$$R = \frac{TP}{TP+FN}$$
+- **Average Precision (AP)**, which is the area under a precision vs. recall curve for a set of predictions (where the curve is obtained by varying a threshold).
+- **Mean Average Precision (mAP)**, which is the average of the AP over all classes.
 
 Precision, Recall and AP are better if they are high (maximum is 1). They are specific for a class.
 If there is only one class (like "fish") then the AP and mAP coincide.
@@ -85,9 +87,9 @@ If there is only one class (like "fish") then the AP and mAP coincide.
 We can use these metrics also for fish *detection*, by considering as a False Positive when a box is labeled as fish when it was not a fish and a False Negative when an actual fish box was not identified.
 
 In case of detection we can consider:
-- Intersection Over Union (IoU), which is the ratio between the intersecting area of the predicted box and the ground truth box and their union area. The higher, the better (maximum is 1). 
+- **Intersection Over Union (IoU)**, which is the ratio between the intersecting area of the predicted box and the ground truth box and their union area. The higher, the better (maximum is 1). 
 
-Terms like AP50 indicates the average precision when using the 50 IoU threshold, i.e., AP when we consider that a box correctly found a fish only if the IoU with the tue box is higher than 0.50. If the predicted box is off than more than half then we do not consider the fish as guessed.
+Terms like **mAP50** indicates the average precision when using the 50 IoU threshold, i.e., AP when we consider that a box correctly found a fish only if the IoU with the tue box is higher than 0.50. If the predicted box is off than more than half then we do not consider the fish as guessed.
 
 ## References:
 - Salman et al. "Fish species classification in unconstrained underwater environments based on deep learning" (2016)
