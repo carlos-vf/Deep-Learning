@@ -66,23 +66,33 @@ subsubsectionstyle=show/shaded/hide]
 \section{Theory}
 
 \begin{frame}
-\frametitle{Fish detection problem}
-\end{frame}
-
-\begin{frame}
 \frametitle{History of fish detection}
+\centering
+\includegraphics[width=1\linewidth]{images/Fish detection papers with years.jpg}
 \end{frame}
 
 \begin{frame}
-\frametitle{YOLO}
+\frametitle{10 years of YOLO}
+\centering
+\includegraphics[width=1\linewidth,keepaspectratio]{images/yolo_timeline.pdf}
 \end{frame}
 
 \begin{frame}
 \frametitle{YOLOv8}
+\centering
+    \includegraphics[width=1\linewidth]{images/YOLO_architecture_simple.png}
 \end{frame}
 
 \begin{frame}
-\frametitle{Sub-things to explain}
+\frametitle{Complete Architecture}
+\centering
+\includegraphics[height=0.85\textheight,keepaspectratio]{images/YOLO_architecture.jpg}
+\end{frame}
+
+\begin{frame}
+\frametitle{Modules}
+\centering
+\includegraphics[width=1\linewidth,keepaspectratio]{images/module_details.png}
 \end{frame}
 
 \section{Detection}
@@ -454,44 +464,49 @@ The \textbf{Non-Maximum Suppression} is a technique that cleans up the output of
 \begin{frame}
     \frametitle{The Tracking Challenge: Occlusion \& ID Switches}
     
-    \textbf{Problem:} In complex underwater scenes, fish are frequently occluded by objects or other fish.
-    \vspace{1em}
-            
-    A naive tracker will often:
-    \begin{itemize}
-        \item \textbf{Lose the track} entirely when the fish disappears.
-        \item \textbf{Create a new ID} when the fish reappears (\textcolor{deepred}{ID Switch}).
-    \end{itemize}
-    
-    \vspace{1em}
-    \textbf{Goal:} Maintain a persistent, correct ID for each fish despite occlusions.
+    \begin{columns}[T,totalwidth=\textwidth] 
+        \begin{column}{0.32\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{images/wrong_occlusion_1.png}
+            \vspace{0.5em}
+            \tiny
+            \textbf{1. Before Occlusion} \\
+            The fish ID 2 is clearly visible and being tracked.
+        \end{column}
+        
+        \begin{column}{0.32\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{images/wrong_occlusion_2.png}
+            \vspace{0.5em}
+            \tiny
+            \textbf{2. During Occlusion} \\
+            Fish ID 2 is now hidden behind fish ID 3.
+        \end{column}
+        
+        \begin{column}{0.32\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{images/wrong_occlusion_3.png}
+            \vspace{0.5em}
+            \tiny
+            \textbf{3. After Occlusion (ID Switch)} \\
+            The fish reappears identified as a new object ID 7.
+        \end{column}
+    \end{columns}
 \end{frame}
+
 
 \begin{frame}
     \frametitle{The ByteTrack Algorithm}
     
-    \begin{columns}[T]
-        \begin{column}{0.5\textwidth}
-            \textbf{Stage 1: High-Confidence Match}
-            \begin{itemize}
-                \item Uses motion prediction (Kalman Filter) to estimate the next position of existing tracks.
-                \item Matches these predictions with high-confidence detections from the YOLO model.
-            \end{itemize}
-        \end{column}
-        
-        \begin{column}{0.5\textwidth}
-            \textbf{Stage 2: Low-Confidence Match}
-            \begin{itemize}
-                \item Instead of discarding low-confidence detections, it keeps them.
-                \item It attempts to match these "doubtful" detections to the tracks that were lost in Stage 1.
-            \end{itemize}
-        \end{column}
-    \end{columns}
+    \begin{figure}
+        \centering
+        \includegraphics[width=1\linewidth]{images/bytetrack.png}
+    \end{figure}
     
 \end{frame}
 
 \begin{frame}
-    \frametitle{Occlusion Example}
+    \frametitle{Correct Object Re-identification}
     
     \begin{columns}[T,totalwidth=\textwidth] 
         \begin{column}{0.32\textwidth}
@@ -526,7 +541,110 @@ The \textbf{Non-Maximum Suppression} is a technique that cleans up the output of
 
 \section{Results}
 
+\begin{frame}{Fish Detection (DeepFish): Metrics}
+    \centering
+
+    \begin{minipage}{0.49\linewidth}
+        \includegraphics[width=\linewidth]{images/BoxP_curve.png}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.49\linewidth}
+        \includegraphics[width=\linewidth]{images/BoxR_curve.png}
+    \end{minipage}
+\end{frame}
+
+
+\begin{frame}{Fish Detection (DeepFish): Metrics}
+    \centering
+    \begin{minipage}{0.49\linewidth}
+        \includegraphics[width=\linewidth]{images/BoxPR_curve.png}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.49\linewidth}
+        \includegraphics[width=\linewidth]{images/BoxF1_curve.png}
+    \end{minipage}
+    
+\end{frame}
+
+
+\begin{frame}{Fish Detection (DeepFish): Training Batch}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.60\linewidth]{images/train_batch2.jpg}
+\end{figure}
+    
+\end{frame}
+
+
+\begin{frame}{Fish Detection (DeepFish): Validation Batch}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{images/val_batch1_pred.jpg}
+\end{figure}
+    
+\end{frame}
+
+
+\begin{frame}{Fish Tracking (F4K): Metrics}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{images/standard_performance_heatmap.png}
+\end{figure}
+    
+\end{frame}
+
+
+
+
+
+
 \section{Conclusions}
+
+\begin{frame}{Conclusions}
+    Successful pipeline for real-time fish detection, tracking, and classification.
+    \vspace{1.5em}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.8\linewidth]{images/video_screenshot.png}
+    \end{figure}
+
+\end{frame}
+
+
+\begin{frame}{Future Work}
+    
+    \vspace{1.5em}
+    
+    \begin{columns}[T,totalwidth=\textwidth]
+        
+        \begin{column}{0.32\textwidth}
+            \centering
+            \includegraphics[width=0.6\linewidth]{images/brain_icon.jpg}
+            \vspace{1em}
+            \parbox{\linewidth}{\centering\textbf{\\Improve Detector Robustness}}
+        \end{column}
+        
+        \begin{column}{0.32\textwidth}
+            \centering
+            \includegraphics[width=0.6\linewidth]{images/video_icon.jpg}
+            \vspace{1em}
+            \parbox{\linewidth}{\centering\textbf{\\Deploy on Video Devices}}
+        \end{column}
+        
+        \begin{column}{0.32\textwidth}
+            \centering
+            \vspace{1em}
+            \includegraphics[width=0.6\linewidth]{images/graph_icon.png}
+            \vspace{1em}
+            \parbox{\linewidth}{\centering\textbf{\\Enable Behavioral Analysis}}
+        \end{column}
+        
+    \end{columns}
+    
+\end{frame}
 
 \bibliography{ref}
 \bibliographystyle{plain}
