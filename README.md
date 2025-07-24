@@ -27,7 +27,7 @@ The project is organized into the following directories to ensure a clean and sc
 
 ```
 Deep-Learning/
-├── data/
+├── Datasets/
 │   └── ... (Contains raw datasets like F4K and DeepFish)
 ├── models/
 │   └── ... (Contains the models, both pre-trained and fine-tuned for fishes)
@@ -45,20 +45,19 @@ Deep-Learning/
 │       ├── bytetrack.yaml
 │       └── evaluate_f4k.py
 ├── theory/
-│   └── papers/
 │   └── ... (Contains all the theory regarding the YOLO models and its history)
 └── README.md
 ```
 
-* **`data/`**: Holds all the datasets used for training and evaluation.
+* **`Datasets/`**: Holds all the datasets used for training and evaluation.
 * **`models/`**: Contains the final, trained model files (`.pt`).
 * **`outputs/`**: The default location where all generated videos and data files are saved.
 * **`src/`**: Contains all the Python source code.
 
 > [!IMPORTANT]
-> The **`data/`** folder is not present in the repository due to its weight.
+> The **`Datasets/`** folder is not present in the repository due to its weight.
 > You can download the DeepFish dataset [here](https://www.kaggle.com/datasets/vencerlanz09/deep-fish-object-detection) (small version) or [here](https://alzayats.github.io/DeepFish/) (original version) and the Fish4Knowledge dataset [here](https://homepages.inf.ed.ac.uk/rbf/Fish4Knowledge/resources.htm).
-> Then save them in the **`data/`** folder and run the converter script in **`src/object_detector`** to have the correct format.
+> Then save them in the **`Datasets/`** folder and run the converter script in **`src/object_detector`** to have the correct format.
 
 ---
 
@@ -81,7 +80,7 @@ The main entry point for all operations is `src/main.py`. You must run all comma
 ### Input Sources
 
 The `--source` argument determines the input type:
-* **For a video file**, provide the full path to the file (e.g., `"data/f4k/gt_113.mp4"`).
+* **For a video file**, provide the full path to the file (e.g., `"Datasets/f4k/gt_113.mp4"`).
 * **For a live camera**, provide its numerical ID (e.g., `"0"` for the default system webcam).
 
 ### Operational Modes
@@ -101,7 +100,7 @@ py src/main.py --source 0 --mode buffered --min-duration 10
 
 **Pre-recorded Video (Standard Mode):**
 ```bash
-py src/main.py --source "data/Deepfish/7398/train/output.mp4" --mode standard --yolo-model "models/fish.pt"
+py src/main.py --source "data/Deepfish/7398/train/output.mp4" --mode standard --yolo-model "models/multi_deepfish_m.pt"
 ```
 
 > [!NOTE]  

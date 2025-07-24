@@ -1,5 +1,4 @@
 Datasets/
-data
 venv*
 src/object_detector/runs/train/*/weights
 _pycache__
