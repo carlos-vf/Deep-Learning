@@ -215,3 +215,29 @@ and may require more powerful hardware for efficient inference.
 
 AdamW is a smarter version of Adam as it decouples weight decay from the gradient update step. Instead of adding weight decay to the loss function, it applies weight decay directly during the parameter update, leading to more consistent regularization and better generalization.
 
+### Loss Function
+
+- CIoU loss for bounding box regression to improve localization accuracy, represented as box_loss during training.
+- DFL loss (Distribution Focal Loss), which you've rightly identified and is directly reported as dfl_loss. It helps the model to better estimate object categories.
+- VFL loss (Varifocal Loss), which is not separately shown but is incorporated within cls_loss (class loss) in the training logs. VFL is designed to address imbalances and uncertainties in classification tasks.
+
+Significance of Weights in Loss Functions: The weights (box, cls, dfl) dictate the emphasis the model puts on each component during training. For instance, box=7.5 puts substantial focus on getting the bounding box coordinates correct, while cls=0.5 and dfl=1.5 adjust the importance of class prediction accuracy and distribution of focal loss, respectively.
+
+The default weights for the loss functions (7.5 for box, 0.5 for cls, and 1.5 for dfl) were determined through extensive experimentation and tuning to balance the contributions of each component to the overall loss effectively. You can indeed adjust these weights:
+
+- Manipulating Loss Weights: If you're dealing with unbalanced classes, increasing the cls (class loss) might help. For example, trying values like cls=1 or cls=2 could proportionally increase the penalty for misclassifications, which may help correct class imbalance issues.
+
+- Effects of Scaling Loss Weights: Increasing all losses by a common factor (like multiplying by 5 or 10) will not change the learning focus but might affect the convergence rate due to overall scale adjustment of gradients during backpropagation. It's usually more effective to adjust them relative to one another rather than scaling up all equally.
+
+- Trade-offs: Indeed, there are trade-offs! Increasing one versus the others might make the model focus more on that aspect (e.g., more on getting bounding boxes right than classifying). Balancing this can be crucial depending on what’s more critical for your specific application
+
+The CIoU (Complete Intersection over Union) loss indeed typically ranges between 0 and 1 for individual bounding boxes. However, the box_loss value you see during training is an aggregate measure, often a sum or mean over all bounding boxes in a batch. 
+
+- CIoU Loss: Measures the overlap between predicted and ground truth boxes, considering aspect ratio and distance between box centers.
+- Box Loss: In training logs, this is usually the sum of CIoU losses over all bounding boxes in a batch, hence it can exceed 1.
+
+- Cls Loss (Varifocal Loss): This loss measures the classification error and can vary widely depending on the confidence scores and the number of classes. It doesn't have a strict range but is generally between 0 and 1 for individual detections.
+- Dfl Loss (Distribution Focal Loss): This loss focuses on the localization precision of bounding boxes. Like the CIoU loss, its value for a single detection is typically between 0 and 1.
+
+### NMS
+

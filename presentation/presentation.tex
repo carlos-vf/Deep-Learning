@@ -166,21 +166,21 @@ subsubsectionstyle=show/shaded/hide]
 \centering
 \textbf{Fish4Knowledge}
 \begin{lstlisting}[language=python]
-    f4k
-    ┣ fish_image
-    ┃ ┣ fish_01
-    ┃ ┃ ┣ fish_x.png
-    ┃ ┃ ┗ ...
-    ┣ gt_bounding_boxes
-    ┃ ┣ gt_106.xml
-    ┃ ┗ ...
-    ┣ mask_image
-    ┃ ┣ mask_01
-    ┃ ┃ ┣ mask_x.png
-    ┃ ┃ ┗ ...
-    ┗ videos
-      ┣ gt_106.mp4
-      ┗ ...
+.    
+┣ fish_image
+┃ ┣ fish_01
+┃ ┃ ┣ fish_x.png
+┃ ┃ ┗ ...
+┣ gt_bounding_boxes
+┃ ┣ gt_106.xml
+┃ ┗ ...
+┣ mask_image
+┃ ┣ mask_01
+┃ ┃ ┣ mask_x.png
+┃ ┃ ┗ ...
+┗ videos
+    ┣ gt_106.mp4
+    ┗ ...
 
 \end{lstlisting}
 \end{column}
@@ -313,7 +313,7 @@ Where:
 \begin{frame}
 \frametitle{Loss Function}
 $$
-loss = L_{cls} + L_{box} + L_{DFL}
+L{yolov8} = L_{cls} + L_{box} + L_{dfl} 
 $$
 \begin{itemize}
 	\item \textbf{Classification loss:} crucial for predicting the correct class of objects.
@@ -644,6 +644,11 @@ The \textbf{Non-Maximum Suppression} is a technique that cleans up the output of
         
     \end{columns}
     
+\end{frame}
+
+\begin{frame}
+\centering
+{\Huge Thank you!}
 \end{frame}
 
 \bibliography{ref}
