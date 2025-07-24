@@ -1,0 +1,25 @@
+\begin{thebibliography}{1}
+
+\bibitem{datature2024bytetrack}
+Datature.
+\newblock Introduction to bytetrack: Multi-object tracking by associating every
+  detection box, 2024.
+\newblock Accessed: [insert access date].
+
+\bibitem{loshchilov2019decoupledweightdecayregularization}
+Ilya Loshchilov and Frank Hutter.
+\newblock Decoupled weight decay regularization, 2019.
+
+\bibitem{rangeking2023yolov8}
+RangeKing and Glenn Jocher.
+\newblock Brief summary of yolov8 model structure.
+\newblock \url{https://github.com/ultralytics/ultralytics/issues/189}, 2023.
+\newblock Accessed July 2025.
+
+\bibitem{sohan2024review}
+Mupparaju Sohan, Thotakura Sai~Ram, and Ch~Venkata Rami~Reddy.
+\newblock A review on yolov8 and its advancements.
+\newblock In {\em International Conference on Data Intelligence and Cognitive
+  Informatics}, pages 529--545. Springer, 2024.
+
+\end{thebibliography}

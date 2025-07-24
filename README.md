@@ -58,6 +58,7 @@ Deep-Learning/
 > The **`Datasets/`** folder is not present in the repository due to its weight.
 > You can download the DeepFish dataset [here](https://www.kaggle.com/datasets/vencerlanz09/deep-fish-object-detection) (small version) or [here](https://alzayats.github.io/DeepFish/) (original version) and the Fish4Knowledge dataset [here](https://homepages.inf.ed.ac.uk/rbf/Fish4Knowledge/resources.htm).
 > Then save them in the **`Datasets/`** folder and run the converter script in **`src/object_detector`** to have the correct format.
+> You can download the already preprocessed Datasets [here](https://drive.google.com/drive/folders/1Fv14CpnAjmN642m7lFjHL8yRfeyHYFCQ?usp=sharing)
 
 ---
 
