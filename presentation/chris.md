@@ -239,5 +239,104 @@ The CIoU (Complete Intersection over Union) loss indeed typically ranges between
 - Cls Loss (Varifocal Loss): This loss measures the classification error and can vary widely depending on the confidence scores and the number of classes. It doesn't have a strict range but is generally between 0 and 1 for individual detections.
 - Dfl Loss (Distribution Focal Loss): This loss focuses on the localization precision of bounding boxes. Like the CIoU loss, its value for a single detection is typically between 0 and 1.
 
+
+#### Box Loss (Complete IoU (CIoU))
+
+CIoU = IoU - ρ²/c² - αv
+
+- IoU: Intersection over Union (basic overlap)
+- ρ²/c²: Distance penalty (centers should be close)
+- αv: Aspect ratio penalty (shape should match)
+
+For a fish detection
+gt_box = [245.7, 180.3, 394.2, 259.8]  # x1,y1,x2,y2
+pred_box = [248.0, 175.0, 390.0, 265.0]
+
+1. Basic IoU
+intersection = 138.5 * 79.5 = 11,010
+union = 148.5 * 84.8 + 142 * 90 - 11,010 = 14,416
+IoU = 11,010 / 14,416 = 0.764
+
+2. Distance penalty
+center_gt = (320.0, 220.0)
+center_pred = (319.0, 220.0)
+ρ² = 1.0  # squared distance between centers
+c² = 170²  # diagonal of smallest enclosing box
+
+3. Aspect ratio
+v = (4/π²) * (arctan(w_gt/h_gt) - arctan(w_pred/h_pred))²
+α = v / (1 - IoU + v)
+
+Final CIoU
+CIoU = 0.764 - 1.0/28900 - 0.02 * 0.15 = 0.761
+Box_Loss = 1 - CIoU = 0.239
+
+#### Classification Loss
+
+YOLOv8 uses BCE because objects can belong to multiple classes:
+BCE = -Σ[y_i * log(p_i) + (1-y_i) * log(1-p_i)]
+
+Classes: [salmon, tuna, shark, goldfish, bass]
+Ground truth: This is a tuna
+y_true = [0, 1, 0, 0, 0]
+
+Model predictions (after sigmoid)
+y_pred = [0.1, 0.85, 0.05, 0.02, 0.15]
+
+BCE calculation for each class
+BCE_salmon = -(0 * log(0.1) + 1 * log(0.9)) = 0.105
+BCE_tuna = -(1 * log(0.85) + 0 * log(0.15)) = 0.163
+BCE_shark = -(0 * log(0.05) + 1 * log(0.95)) = 0.051
+...
+
+Cls_Loss = mean([0.105, 0.163, 0.051, 0.020, 0.163]) = 0.100
+
+#### DFL 
+
+Left edge (x₁): 245.7 pixels
+Top edge (y₁): 180.3 pixels
+Right edge (x₂): 394.2 pixels
+Bottom edge (y₂): 259.8 pixels
+
+With stride=16 (for this feature map level), each bin represents:
+
+Bin 0: pixels 0-15
+Bin 1: pixels 16-31
+...
+Bin 15: pixels 240-255 ← Our fish at 245.7 is here!
+Bin 16: pixels 256-271
+
+```
+# One-hot for left boundary (bin 15)
+t_l = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0]
+                                                    ↑
+                                                  bin 15
+
+# One-hot for right boundary (bin 16)  
+t_r = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+                                                       ↑
+                                                     bin 16
+
+# Soft label (weighted combination)
+t_soft = 0.644 * t_l + 0.356 * t_r
+t_soft = [0, 0, 0, ..., 0, 0.644, 0.356]
+                              ↑      ↑
+                           bin 15  bin 16
+```
+
+```
+# After softmax on model's output
+p_x1_softmax = [0.01, 0.01, ..., 0.02, 0.58, 0.32, 0.04, ...]
+                                         ↑     ↑
+                                      bin 15  bin 16
+
+# Cross-entropy loss
+Loss = -[0.644 * log(0.58) + 0.356 * log(0.32)]
+```
+
+#### Difference between DFL and Box Loss
+
+DFL gives a probability distribution over all the image of where the coordinate should be (for all 4 coordinates). Then box loss helps define the box and so our accuracy in this sense.
+
 ### NMS
 
