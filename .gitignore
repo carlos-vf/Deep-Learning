@@ -6,3 +6,10 @@ _pycache__
 */*/__pycache__
 */__pycache__
 .DS_Store
+*.aux
+*.log
+*.nav
+*.out 
+*.snm
+*.toc
+*.vrb
