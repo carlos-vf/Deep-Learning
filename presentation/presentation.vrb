@@ -1,4 +1,4 @@
-\frametitle{Configuration files}
+\frametitle{Configuration files (data.yaml)}
 \begin{columns}
 \begin{column}{0.45\textwidth}
 \begin{lstlisting}[language=python]

@@ -117,7 +117,89 @@ subsubsectionstyle=show/shaded/hide]
 \end{frame}
 
 \begin{frame}[fragile]
-\frametitle{Configuration files}
+\frametitle{Datasets structure}
+\begin{columns}
+\begin{column}{0.3\textwidth}
+\centering
+\textbf{DeepFish}
+\begin{lstlisting}[language=python]
+.
+├── 7117
+│   ├── train
+│   └── valid
+├── 7268
+├── 7393
+├── 7398
+├── 7426
+├── 7434
+├── 7463
+├── 7482
+├── 7490
+├── 7585
+├── 7623
+├── 9852
+├── 9862
+├── 9866
+├── 9870
+├── 9892
+├── 9894
+├── 9898
+├── 9907
+├── 9908
+├── classes.txt
+├── Nagative_samples
+└── test
+\end{lstlisting}
+\end{column}
+
+\begin{column}{0.3\textwidth}
+\centering
+\textbf{Fish4Knowledge}
+\begin{lstlisting}[language=python]
+    f4k
+    ┣ fish_image
+    ┃ ┣ fish_01
+    ┃ ┃ ┣ fish_x.png
+    ┃ ┃ ┗ ...
+    ┣ gt_bounding_boxes
+    ┃ ┣ gt_106.xml
+    ┃ ┗ ...
+    ┣ mask_image
+    ┃ ┣ mask_01
+    ┃ ┃ ┣ mask_x.png
+    ┃ ┃ ┗ ...
+    ┗ videos
+      ┣ gt_106.mp4
+      ┗ ...
+
+\end{lstlisting}
+\end{column}
+
+\begin{column}{0.3\textwidth}
+\centering
+\textbf{YOLO format}
+\begin{lstlisting}[language=python]
+.
+├── data.yaml
+├── test
+│   ├── images
+│   ├── labels
+│   └── labels.cache
+├── train
+│   ├── images
+│   ├── labels
+│   └── labels.cache
+└── val
+    ├── images
+    ├── labels
+    └── labels.cache
+\end{lstlisting}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Configuration files (data.yaml)}
 \begin{columns}
 \begin{column}{0.45\textwidth}
 \begin{lstlisting}[language=python]
@@ -194,6 +276,19 @@ YOLOv8x & 640 & 53.9 & 479.1 & 3.53 & 68.2 & 257.8 \\
 
 \begin{frame}
 \frametitle{AdamW}
+$$
+\phi_{t+1} \leftarrow \phi_t - \alpha \cdot (\frac{m_t}{v_t + \epsilon} + \lambda \phi_t)
+$$
+\vspace{0.5cm}
+Where:
+\begin{itemize}
+	\item $m_t \leftarrow \frac{\beta_1 \cdot m_{t-1} + (1-\beta_1)g_t}{1 - \beta_1^t}$
+	\item $v_t \leftarrow \frac{\beta_2 \cdot v_{t-1} + (1-\beta_2)g_t^2}{1 - \beta_2^t}$
+	\item $g_t \leftarrow \nabla L_t(\phi_{t-1}) \quad  \mathbf{ (no  }\lambda \phi_{t-1} \mathbf{  here!)}$
+\end{itemize}
+\end{frame}
+
+\begin{frame}
 \centering
 \includegraphics[width=\textwidth]{images/adamw_algo.png}
 \footnote{\cite{loshchilov2019decoupledweightdecayregularization}}
